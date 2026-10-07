@@ -44,8 +44,8 @@ namespace MCPForUnityTests.Editor.Helpers
             {
                 EditorPrefs.DeleteKey(EditorPrefKeys.GitUrlOverride);
                 string source = AssetPathUtility.GetMcpServerPackageSource();
-                Assert.That(source, Does.StartWith("git+https://github.com/MuiSim/unity-mcp@"));
-                Assert.That(source, Does.EndWith("#subdirectory=Server"));
+                Assert.That(source, Does.StartWith("https://github.com/MuiSim/unity-mcp/archive/"));
+                Assert.That(source, Does.EndWith(".zip#subdirectory=Server"));
                 Assert.That(source, Does.Not.Contain("mcpforunityserver"));
 
                 const string explicitSource = "git+https://github.com/owner/custom-server@main#subdirectory=Server";
@@ -71,7 +71,7 @@ namespace MCPForUnityTests.Editor.Helpers
         public void GetMcpServerPackageSource_MatchesInstalledRefOrVersion(string packageId, string version, string expectedRef)
         {
             Assert.AreEqual(
-                $"git+https://github.com/MuiSim/unity-mcp@{expectedRef}#subdirectory=Server",
+                $"https://github.com/MuiSim/unity-mcp/archive/{expectedRef}.zip#subdirectory=Server",
                 AssetPathUtility.GetMcpServerPackageSource(packageId, version));
         }
     }

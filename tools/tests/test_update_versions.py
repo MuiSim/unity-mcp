@@ -128,7 +128,10 @@ def test_checked_in_lock_agrees_with_pyproject_version():
 @pytest.mark.parametrize("function,attribute,source,expected", [
     ("update_server_readme", "SERVER_README",
      "git+https://github.com/{owner}/unity-mcp@v10.3.1#subdirectory=Server",
-     "git+https://github.com/MuiSim/unity-mcp@v10.3.2#subdirectory=Server"),
+     "https://github.com/MuiSim/unity-mcp/archive/v10.3.2.zip#subdirectory=Server"),
+    ("update_server_readme", "SERVER_README",
+     "https://github.com/{owner}/unity-mcp/archive/v10.3.1.zip#subdirectory=Server",
+     "https://github.com/MuiSim/unity-mcp/archive/v10.3.2.zip#subdirectory=Server"),
     ("update_root_readme", "ROOT_README",
      "https://github.com/{owner}/unity-mcp.git?path=/MCPForUnity#v10.3.1",
      "https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.2"),

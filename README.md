@@ -61,9 +61,10 @@ Control the Unity Editor in natural language from any MCP client — create scen
 `#v10.3.1` selects a fixed release instead of a moving branch. Unity keeps that
 version until you change the Git URL to another release tag. The default Python
 server source uses the same tag automatically:
-`git+https://github.com/MuiSim/unity-mcp@v10.3.1#subdirectory=Server`.
+`https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server`.
 Leave **Advanced Settings → Server Source Override** empty to use this matching
-version.
+version. The source archive avoids Windows Git checkout long-path failures when
+installing the Python server.
 
 You can also track `#main` or `#beta`; those are moving branches, not version pins.
 The matching Python server follows the selected branch. These fork changes are

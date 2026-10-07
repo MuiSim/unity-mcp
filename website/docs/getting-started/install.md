@@ -119,7 +119,7 @@ If auto-configuration doesn't work for your client, add this to your client's MC
   "mcpServers": {
     "unityMCP": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/MuiSim/unity-mcp@v10.3.1#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
+      "args": ["--from", "https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
     }
   }
 }
@@ -132,7 +132,7 @@ If auto-configuration doesn't work for your client, add this to your client's MC
   "mcpServers": {
     "unityMCP": {
       "command": "C:/Users/YOUR_USERNAME/AppData/Local/Microsoft/WinGet/Links/uvx.exe",
-      "args": ["--from", "git+https://github.com/MuiSim/unity-mcp@v10.3.1#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
+      "args": ["--from", "https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
     }
   }
 }

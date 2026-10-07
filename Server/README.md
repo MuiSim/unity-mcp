@@ -76,7 +76,7 @@ Use this to run the latest released version from the repository. Change the vers
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/MuiSim/unity-mcp@v10.3.1#subdirectory=Server",
+        "https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server",
         "mcp-for-unity",
         "--transport",
         "stdio"
@@ -85,6 +85,10 @@ Use this to run the latest released version from the repository. Change the vers
   }
 }
 ```
+
+The versioned source archive pins the server without cloning the full repository,
+avoiding Windows Git long-path errors. Explicit `git+https://` server-source
+overrides remain supported.
 
 ### Option 3: Docker
 

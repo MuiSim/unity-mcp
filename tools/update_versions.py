@@ -198,9 +198,9 @@ def update_server_readme(new_version: str, dry_run: bool = False) -> bool:
 
     content = SERVER_README.read_text(encoding="utf-8")
 
-    # Pattern to match git+https URLs with version tags
-    pattern = r'git\+https://github\.com/(?:CoplayDev|MuiSim)/unity-mcp@v[0-9]+\.[0-9]+\.[0-9]+#subdirectory=Server'
-    replacement = f'git+https://github.com/MuiSim/unity-mcp@v{new_version}#subdirectory=Server'
+    # Match both Git and archive URLs with version tags.
+    pattern = r'(?:git\+https://github\.com/(?:CoplayDev|MuiSim)/unity-mcp@|https://github\.com/(?:CoplayDev|MuiSim)/unity-mcp/archive/)v[0-9]+\.[0-9]+\.[0-9]+(?:\.zip)?#subdirectory=Server'
+    replacement = f'https://github.com/MuiSim/unity-mcp/archive/v{new_version}.zip#subdirectory=Server'
 
     if not re.search(pattern, content):
         print(

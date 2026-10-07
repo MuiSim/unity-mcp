@@ -22,7 +22,7 @@
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/MuiSim/unity-mcp@v10.3.1#subdirectory=Server",
+        "https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server",
         "mcp-for-unity"
       ],
       "env": {}

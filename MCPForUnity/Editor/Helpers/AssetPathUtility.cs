@@ -205,7 +205,7 @@ namespace MCPForUnity.Editor.Helpers
         /// <summary>
         /// Gets the package source for the MCP server (used with uvx --from).
         /// Checks for EditorPrefs override first (supports git URLs, file:// paths, etc.),
-        /// then uses this fork's matching Git ref or version tag.
+        /// then uses this fork's source archive at the matching Git ref or version tag.
         /// When the override is a local path, auto-corrects to the "Server" subdirectory
         /// if the path doesn't contain pyproject.toml but Server/pyproject.toml exists.
         /// </summary>
@@ -242,7 +242,7 @@ namespace MCPForUnity.Editor.Helpers
                 gitRef = packageId.Substring(fragmentIndex + 1);
             }
 
-            return $"git+https://github.com/MuiSim/unity-mcp@{gitRef}#subdirectory=Server";
+            return $"https://github.com/MuiSim/unity-mcp/archive/{gitRef}.zip#subdirectory=Server";
         }
 
         /// <summary>
