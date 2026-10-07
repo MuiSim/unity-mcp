@@ -1,6 +1,25 @@
 # MCP for Unity — Documentation Site
 
-Docusaurus 3.x site for MCP for Unity. Deployed to https://muisim.github.io/unity-mcp/ by `.github/workflows/docs-deploy.yml` on every push to `beta` that touches `website/**`, `docs/**`, or the Python tool registry.
+Docusaurus 3.x site for the [MuiSim fork](https://github.com/MuiSim/unity-mcp.git).
+The publishing target is https://muisim.github.io/unity-mcp/.
+`.github/workflows/docs-deploy.yml` deploys on pushes to `beta` that touch
+`website/**`, `docs/**`, or the Python tool registry. Publishing a version tag
+does not itself deploy the site.
+
+## Fork release pointers
+
+The current fork version is [v10.3.1](https://github.com/MuiSim/unity-mcp/tree/v10.3.1).
+Installation documentation uses:
+
+```text
+https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.1
+```
+
+The matching Python server uses
+`https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server`.
+Keep version tags and repository/documentation links consistent when editing
+installation examples. The docs site does not load a remote analytics beacon;
+setting `GOATCOUNTER_CODE` does not enable one.
 
 ## Local development
 

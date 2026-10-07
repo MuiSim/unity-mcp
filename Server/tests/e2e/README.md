@@ -10,6 +10,15 @@ the normal unit suite never tries to reach a Unity instance.
 
 ## Run locally
 
+Use matching Unity and Python server sources from
+[MuiSim/unity-mcp](https://github.com/MuiSim/unity-mcp.git). To test the fixed
+release, install the Unity package with
+`https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.1` and use the
+matching server archive
+`https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server`.
+For development tests, point both components at the same local checkout instead.
+Remote telemetry reporting remains disabled; event creation is still available.
+
 Start a Unity Editor with the MCP bridge active, then:
 
 ```bash

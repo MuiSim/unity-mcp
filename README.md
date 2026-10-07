@@ -9,12 +9,16 @@
 
 [English](README.md) <img src="docs/images/connector.svg" alt="↔" height="14"> [简体中文](docs/i18n/README-zh.md) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; [Discord](https://discord.gg/y4p8KfzrN4) <img src="docs/images/connector.svg" alt="↔" height="14"> [Wiki](https://muisim.github.io/unity-mcp/)
 
-#### Proudly sponsored and maintained by [Aura](https://www.tryaura.dev/) — the AI assistant for Unreal & Unity.
+#### Upstream sponsored and maintained by [Aura](https://www.tryaura.dev/) — the AI assistant for Unreal & Unity.
 ##### And don't miss [Godot AI](https://github.com/hi-godot/godot-ai), the new open source project from the makers of MCP for Unity.
 
 </div>
 
 <p align="center"><b>Create your Unity apps with LLMs.</b> MCP for Unity bridges AI assistants — Claude, Codex, VS Code, local LLMs, and more — with your Unity Editor via <a href="https://modelcontextprotocol.io/introduction">Model Context Protocol</a>. Give your LLM the tools to manage assets, control scenes, edit scripts, run tests, and automate your game dev workflows.</p>
+
+**MuiSim fork:** [Repository](https://github.com/MuiSim/unity-mcp.git) ·
+[Version tags](https://github.com/MuiSim/unity-mcp/tags). This fork preserves local
+telemetry creation while disabling remote reporting.
 
 <p align="center">
   <img alt="MCP for Unity building a scene" src="docs/images/building_scene.gif">
@@ -26,13 +30,9 @@
 <details>
 <summary><strong>Recent Updates</strong></summary>
 
-* **[v10.3.0](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.3.0)** (2026-10-04)
-* **[v10.2.0](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.2.0)** (2026-09-01)
-* **[v10.1.2](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.1.2)** (2026-08-02)
-* **[v10.1.0](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.1.0)** (2026-07-13)
-* **[v10.0.2](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.0.2)** (2026-07-13)
+* **[v10.3.1](https://github.com/MuiSim/unity-mcp/tree/v10.3.1)** (2026-10-07) — version-pinned Unity and Python server installs, remote telemetry reporting disabled, and fork update/documentation sources.
 
-Full history: [Release Notes](https://muisim.github.io/unity-mcp/releases).
+Fork versions: [Git tags](https://github.com/MuiSim/unity-mcp/tags).
 
 </details>
 <!-- recent-updates:end -->
@@ -91,9 +91,9 @@ that build, not to separately installed upstream packages.
 
 ## Community
 
-- [Discord](https://discord.gg/y4p8KfzrN4) — chat with maintainers and other contributors
-- [Issues](https://github.com/CoplayDev/unity-mcp/issues) — bugs and feature requests
-- [Discussions](https://github.com/CoplayDev/unity-mcp/discussions) — design ideas and broader questions
+- [Discord](https://discord.gg/y4p8KfzrN4) — upstream community
+- [Issues](https://github.com/MuiSim/unity-mcp/issues) — fork bugs and feature requests
+- [Repository](https://github.com/MuiSim/unity-mcp.git) — source code and contributions
 - Security: see [SECURITY.md](SECURITY.md) for private reporting
 
 ## Contributing
@@ -110,7 +110,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Branch off `beta`, not `main`. The full 
 
 ## Star History
 
-[![Star History Chart](https://star-history.dera.page/svg?repos=CoplayDev/unity-mcp&type=Date)](https://star-history.dera.page/#CoplayDev/unity-mcp&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=MuiSim/unity-mcp&type=Date)](https://star-history.dera.page/#MuiSim/unity-mcp&Date)
 
 ## Citation
 

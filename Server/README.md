@@ -4,12 +4,13 @@
 [![python](https://img.shields.io/badge/Python-3.10+-3776AB.svg?style=flat&logo=python&logoColor=white)](https://www.python.org)
 [![License](https://img.shields.io/badge/License-MIT-red.svg 'MIT License')](https://opensource.org/licenses/MIT)
 [![Discord](https://img.shields.io/badge/discord-join-red.svg?logo=discord&logoColor=white)](https://discord.gg/y4p8KfzrN4)
-[![PyPI version](https://img.shields.io/pypi/v/mcpforunityserver?label=PyPI)](https://pypi.org/project/mcpforunityserver/)
-[![Downloads](https://static.pepy.tech/badge/mcpforunityserver)](https://pepy.tech/project/mcpforunityserver)
+[![Fork version](https://img.shields.io/badge/MuiSim-v10.3.1-blue)](https://github.com/MuiSim/unity-mcp/tree/v10.3.1)
 
 Model Context Protocol server for Unity Editor integration. Control Unity through natural language using AI assistants like Claude, Cursor, and more.
 
-**Maintained by [Coplay](https://www.coplay.dev/?ref=unity-mcp)** - This project is not affiliated with Unity Technologies.
+**MuiSim fork:** [Repository](https://github.com/MuiSim/unity-mcp.git). The upstream
+project was developed by Coplay and its contributors. This project is not
+affiliated with Unity Technologies.
 
 💬 **Join our community:** [Discord Server](https://discord.gg/y4p8KfzrN4)
 
@@ -20,18 +21,17 @@ Model Context Protocol server for Unity Editor integration. Control Unity throug
 ## Installation
 
 For the reporting-disabled **MuiSim v10.3.1** release, use the pinned GitHub source
-in Option 2. Unity installations pinned to `#v10.3.1` select that server tag
+below. Unity installations pinned to `#v10.3.1` select that server tag
 automatically unless you set an explicit server-source override.
 
-### Option 1: Upstream PyPI
+### Option 1: Pinned GitHub Source (Recommended)
 
-Install and run directly from PyPI using `uvx`. This is an upstream build and does
-not include this fork's remote-reporting changes.
+Run this fork directly using `uvx` and the fixed release archive.
 
 **Run Server (HTTP):**
 
 ```bash
-uvx --from mcpforunityserver mcp-for-unity --transport http --http-url http://localhost:8080
+uvx --from "https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server" mcp-for-unity --transport http --http-url http://localhost:8080
 ```
 
 **MCP Client Configuration (HTTP):**
@@ -55,27 +55,6 @@ uvx --from mcpforunityserver mcp-for-unity --transport http --http-url http://lo
       "command": "uvx",
       "args": [
         "--from",
-        "mcpforunityserver",
-        "mcp-for-unity",
-        "--transport",
-        "stdio"
-      ]
-    }
-  }
-}
-```
-
-### Option 2: From GitHub Source
-
-Use this to run the latest released version from the repository. Change the version to `main` to run the latest unreleased changes from the repository.
-
-```json
-{
-  "mcpServers": {
-    "UnityMCP": {
-      "command": "uvx",
-      "args": [
-        "--from",
         "https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server",
         "mcp-for-unity",
         "--transport",
@@ -88,37 +67,41 @@ Use this to run the latest released version from the repository. Change the vers
 
 The versioned source archive pins the server without cloning the full repository,
 avoiding Windows Git long-path errors. Explicit `git+https://` server-source
-overrides remain supported.
+overrides remain supported. Change the version tag in the archive URL to upgrade.
+Using `main.zip` or `beta.zip` follows a moving branch instead of pinning a release.
 
-### Option 3: Docker
+### Option 2: Docker (Build This Fork Locally)
 
-**Use Pre-built Image:**
-
-```bash
-docker run -p 8080:8080 msanatan/mcp-for-unity-server:latest --transport http --http-url http://0.0.0.0:8080
-```
-
-**Build Locally:**
+No fork-specific prebuilt Docker image is published with this version tag.
+Build from the tagged checkout:
 
 ```bash
+git clone --branch v10.3.1 --depth 1 https://github.com/MuiSim/unity-mcp.git
+cd unity-mcp/Server
 docker build -t unity-mcp-server .
 docker run -p 8080:8080 unity-mcp-server --transport http --http-url http://0.0.0.0:8080
 ```
 
 Configure your MCP client with `"url": "http://localhost:8080/mcp"`.
 
-### Option 4: Local Development
+### Option 3: Local Development
 
 For contributing or modifying the server code:
 
 ```bash
 # Clone the repository
-git clone https://github.com/MuiSim/unity-mcp.git
+git clone --branch v10.3.1 --depth 1 https://github.com/MuiSim/unity-mcp.git
 cd unity-mcp/Server
+
+# Create a branch before editing the pinned release
+git switch -c my-fork-change
 
 # Run with uv
 uv run src/main.py --transport stdio
 ```
+
+Upstream PyPI packages and upstream prebuilt Docker images are separate builds;
+they do not inherit this fork's remote-reporting policy.
 
 ---
 
@@ -179,19 +162,19 @@ remote reporting.
 **Stdio (default):**
 
 ```bash
-uvx --from mcpforunityserver mcp-for-unity --transport stdio
+uvx --from "https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server" mcp-for-unity --transport stdio
 ```
 
 **HTTP (local):**
 
 ```bash
-uvx --from mcpforunityserver mcp-for-unity --transport http --http-host 127.0.0.1 --http-port 8080
+uvx --from "https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server" mcp-for-unity --transport http --http-host 127.0.0.1 --http-port 8080
 ```
 
 **HTTP (remote-hosted with API key auth):**
 
 ```bash
-uvx --from mcpforunityserver mcp-for-unity \
+uvx --from "https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server" mcp-for-unity \
   --transport http \
   --http-host 0.0.0.0 \
   --http-port 8080 \
@@ -237,7 +220,7 @@ When deploying the server as a shared remote service (e.g. for a team or Asset S
 }
 ```
 
-For full details, see [Remote Server Auth Guide](../docs/guides/REMOTE_SERVER_AUTH.md) and [Architecture Reference](../docs/reference/REMOTE_SERVER_AUTH_ARCHITECTURE.md).
+For full details, see the [Remote Server Auth Guide](https://muisim.github.io/unity-mcp/guides/remote-server-auth).
 
 ---
 
@@ -291,4 +274,4 @@ For complete documentation, troubleshooting, and advanced usage:
 
 ## License
 
-MIT License - See [LICENSE](https://github.com/CoplayDev/unity-mcp/blob/main/LICENSE)
+MIT License - See [LICENSE](https://github.com/MuiSim/unity-mcp/blob/v10.3.1/LICENSE)

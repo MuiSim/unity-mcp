@@ -1,6 +1,24 @@
 # MCP for Unity — Editor Plugin Guide
 
-Use this guide to configure and run MCP for Unity inside the Unity Editor. Installation is covered elsewhere; this document focuses on the Editor window, client configuration, and troubleshooting.
+Use this guide to install, configure, and run the [MuiSim fork](https://github.com/MuiSim/unity-mcp.git) inside the Unity Editor.
+
+## Install version v10.3.1
+
+In **Window > Package Manager > Add package from git URL**, use:
+
+```text
+https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.1
+```
+
+Leave **Advanced Settings > Server Source Override** empty to use the matching
+Python server archive:
+`https://github.com/MuiSim/unity-mcp/archive/v10.3.1.zip#subdirectory=Server`.
+Changing the tag upgrades the pinned version; `#main` and `#beta` follow moving
+branches instead. After changing versions, reconfigure MCP clients and restart
+the server/client.
+
+Telemetry events can still be created locally, but remote reporting is disabled.
+Update checks point to `MuiSim/unity-mcp`; they do not change a pinned version.
 
 ## Open the window
 - Unity menu: Window > MCP for Unity
@@ -52,7 +70,7 @@ The window has four areas: Server Status, Unity Bridge, MCP Client Configuration
   - Cursor / VS Code / Windsurf:
     - Auto Configure: Writes/updates your config to launch the server via `uvx` with the current package version:
       - Command: uvx (or your overridden path)
-      - Args: --from <git-url> mcp-for-unity
+      - Args: --from <versioned-source-archive-url> mcp-for-unity
     - Manual Setup: Opens a window with a pre-filled JSON snippet to copy/paste into your client config.
     - Choose UV Install Location: If uv/uvx isn’t on PATH, select the executable.
     - A compact “Config:” line shows the resolved config file name once uv/server are detected.
@@ -84,9 +102,9 @@ Notes:
 
 ## Troubleshooting
 - Python or `uv` not found:
-  - Help: [Fix MCP for Unity with Cursor, VS Code & Windsurf](https://github.com/CoplayDev/unity-mcp/wiki/1.-Fix-Unity-MCP-and-Cursor,-VSCode-&-Windsurf)
+  - Help: [Troubleshooting](https://muisim.github.io/unity-mcp/guides/troubleshooting)
 - Claude CLI not found:
-  - Help: [Fix MCP for Unity with Claude Code](https://github.com/CoplayDev/unity-mcp/wiki/2.-Fix-Unity-MCP-and-Claude-Code)
+  - Help: [Client Configuration Guide](https://muisim.github.io/unity-mcp/guides/client-configurators)
 
 ---
 
