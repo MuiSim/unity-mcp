@@ -8,7 +8,8 @@ description: Add MCP for Unity to your Unity project and connect an MCP client.
 
 # Install
 
-Three install paths are supported. Pick one. **Git URL** is the fastest if you just want to try it.
+Use the pinned **Git URL** below to install the reporting-disabled MuiSim fork.
+The Asset Store and OpenUPM alternatives install upstream builds.
 
 ## Prerequisites
 
@@ -23,13 +24,20 @@ This path needs `git` on your PATH (the Package Manager runs it). If it reports 
 In Unity, open **Window → Package Manager**, click the **`+`** button, choose **Add package from git URL...**, and paste:
 
 ```text
-https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main
+https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.1
 ```
 
-For the latest beta features, use the `beta` branch:
+`#v10.3.1` pins this release. Change the tag to upgrade to a different version.
+The default Python server uses the same tag; leave **Advanced Settings → Server
+Source Override** empty. Regenerate existing client configurations after changing
+the installed version.
+
+To follow a moving branch instead of pinning a version, use `#main` or `#beta`.
+The fork changes are available in the release tag even before they reach those
+branches:
 
 ```text
-https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#beta
+https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#beta
 ```
 
 ## Option 2 — Unity Asset Store
@@ -111,7 +119,7 @@ If auto-configuration doesn't work for your client, add this to your client's MC
   "mcpServers": {
     "unityMCP": {
       "command": "uvx",
-      "args": ["--from", "mcpforunityserver", "mcp-for-unity", "--transport", "stdio"]
+      "args": ["--from", "git+https://github.com/MuiSim/unity-mcp@v10.3.1#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
     }
   }
 }
@@ -124,7 +132,7 @@ If auto-configuration doesn't work for your client, add this to your client's MC
   "mcpServers": {
     "unityMCP": {
       "command": "C:/Users/YOUR_USERNAME/AppData/Local/Microsoft/WinGet/Links/uvx.exe",
-      "args": ["--from", "mcpforunityserver", "mcp-for-unity", "--transport", "stdio"]
+      "args": ["--from", "git+https://github.com/MuiSim/unity-mcp@v10.3.1#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
     }
   }
 }

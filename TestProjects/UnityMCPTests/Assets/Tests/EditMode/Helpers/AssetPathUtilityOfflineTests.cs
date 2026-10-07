@@ -58,5 +58,21 @@ namespace MCPForUnityTests.Editor.Helpers
                 else EditorPrefs.DeleteKey(EditorPrefKeys.GitUrlOverride);
             }
         }
+
+        [TestCase("com.coplaydev.unity-mcp@https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.1", "10.3.1", "v10.3.1")]
+        [TestCase("com.coplaydev.unity-mcp@https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#beta", "10.3.1", "beta")]
+        [TestCase("com.coplaydev.unity-mcp@https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#main", "10.3.1", "main")]
+        [TestCase("com.coplaydev.unity-mcp@https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#abc123", "10.3.1", "abc123")]
+        [TestCase("com.coplaydev.unity-mcp@file:../../../MCPForUnity", "10.3.1", "v10.3.1")]
+        [TestCase(null, "10.3.1-beta.6", "v10.3.1-beta.6")]
+        [TestCase(null, "unknown", "main")]
+        [TestCase(null, null, "main")]
+        [TestCase("com.coplaydev.unity-mcp@https://github.com/MuiSim/unity-mcp.git#", "10.3.1", "v10.3.1")]
+        public void GetMcpServerPackageSource_MatchesInstalledRefOrVersion(string packageId, string version, string expectedRef)
+        {
+            Assert.AreEqual(
+                $"git+https://github.com/MuiSim/unity-mcp@{expectedRef}#subdirectory=Server",
+                AssetPathUtility.GetMcpServerPackageSource(packageId, version));
+        }
     }
 }

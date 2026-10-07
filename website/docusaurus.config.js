@@ -49,7 +49,7 @@ function countReferenceResources() {
   return (readFileSync(path, 'utf8').match(/\n## `/g) ?? []).length;
 }
 
-const latestVersion = 'v10.0.0';
+const latestVersion = 'v10.3.1';
 const toolCount = countReferenceTools();
 const toolGroupCount = countToolGroups();
 const resourceCount = countReferenceResources();

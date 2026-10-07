@@ -13,15 +13,20 @@ Model Context Protocol server for Unity Editor integration. Control Unity throug
 
 💬 **Join our community:** [Discord Server](https://discord.gg/y4p8KfzrN4)
 
-**Required:** Install the [Unity MCP Plugin](https://github.com/CoplayDev/unity-mcp?tab=readme-ov-file#-step-1-install-the-unity-package) to connect Unity Editor with this MCP server. You also need `uvx` (requires [uv](https://docs.astral.sh/uv/)) to run the server.
+**Required:** Install the [Unity MCP Plugin](https://github.com/MuiSim/unity-mcp#quickstart) to connect Unity Editor with this MCP server. You also need `uvx` (requires [uv](https://docs.astral.sh/uv/)) to run the server.
 
 ---
 
 ## Installation
 
-### Option 1: PyPI
+For the reporting-disabled **MuiSim v10.3.1** release, use the pinned GitHub source
+in Option 2. Unity installations pinned to `#v10.3.1` select that server tag
+automatically unless you set an explicit server-source override.
 
-Install and run directly from PyPI using `uvx`.
+### Option 1: Upstream PyPI
+
+Install and run directly from PyPI using `uvx`. This is an upstream build and does
+not include this fork's remote-reporting changes.
 
 **Run Server (HTTP):**
 
@@ -71,7 +76,7 @@ Use this to run the latest released version from the repository. Change the vers
       "command": "uvx",
       "args": [
         "--from",
-        "git+https://github.com/CoplayDev/unity-mcp@v10.3.0#subdirectory=Server",
+        "git+https://github.com/MuiSim/unity-mcp@v10.3.1#subdirectory=Server",
         "mcp-for-unity",
         "--transport",
         "stdio"
@@ -104,7 +109,7 @@ For contributing or modifying the server code:
 
 ```bash
 # Clone the repository
-git clone https://github.com/CoplayDev/unity-mcp.git
+git clone https://github.com/MuiSim/unity-mcp.git
 cd unity-mcp/Server
 
 # Run with uv

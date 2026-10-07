@@ -122,3 +122,25 @@ def test_checked_in_lock_agrees_with_pyproject_version():
         REAL_LOCK.read_bytes().decode("utf-8")
     ).group(2)
     assert lock_version == pyproject_version
+
+
+@pytest.mark.parametrize("owner", ["MuiSim", "CoplayDev"])
+@pytest.mark.parametrize("function,attribute,source,expected", [
+    ("update_server_readme", "SERVER_README",
+     "git+https://github.com/{owner}/unity-mcp@v10.3.1#subdirectory=Server",
+     "git+https://github.com/MuiSim/unity-mcp@v10.3.2#subdirectory=Server"),
+    ("update_root_readme", "ROOT_README",
+     "https://github.com/{owner}/unity-mcp.git?path=/MCPForUnity#v10.3.1",
+     "https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.2"),
+    ("update_zh_readme", "ZH_README",
+     "https://github.com/{owner}/unity-mcp.git?path=/MCPForUnity#v10.3.1",
+     "https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.2"),
+])
+def test_readme_version_pins_use_the_fork(tmp_path, monkeypatch, owner, function, attribute, source, expected):
+    path = tmp_path / "README.md"
+    path.write_text(source.format(owner=owner), encoding="utf-8")
+    monkeypatch.setattr(update_versions, attribute, path)
+    monkeypatch.setattr(update_versions, "REPO_ROOT", tmp_path)
+
+    assert getattr(update_versions, function)("10.3.2") is True
+    assert path.read_text(encoding="utf-8") == expected

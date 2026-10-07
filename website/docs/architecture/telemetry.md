@@ -37,6 +37,8 @@ Update results are cached separately from upstream results to avoid showing an
 upstream version after switching to this fork.
 
 Unity's default server source and skill-sync repository also point at this fork.
+Tagged Unity installations select the same Python server tag, so a version pin
+does not silently launch a server from a moving branch.
 Existing explicit source and skill-repository overrides are preserved.
 
 This policy applies to builds from this repository. An explicit server-source

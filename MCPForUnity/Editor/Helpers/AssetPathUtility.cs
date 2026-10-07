@@ -205,7 +205,7 @@ namespace MCPForUnity.Editor.Helpers
         /// <summary>
         /// Gets the package source for the MCP server (used with uvx --from).
         /// Checks for EditorPrefs override first (supports git URLs, file:// paths, etc.),
-        /// then falls back to this fork's GitHub server source.
+        /// then uses this fork's matching Git ref or version tag.
         /// When the override is a local path, auto-corrects to the "Server" subdirectory
         /// if the path doesn't contain pyproject.toml but Server/pyproject.toml exists.
         /// </summary>
@@ -227,8 +227,22 @@ namespace MCPForUnity.Editor.Helpers
             }
 
             // Upstream PyPI builds do not contain this fork's reporting policy.
-            string branch = MCPServiceLocator.Updates.GetGitUpdateBranch(GetPackageVersion());
-            return $"git+https://github.com/MuiSim/unity-mcp@{branch}#subdirectory=Server";
+            var packageInfo = PackageInfo.FindForAssembly(typeof(AssetPathUtility).Assembly);
+            return GetMcpServerPackageSource(packageInfo?.packageId, GetPackageVersion());
+        }
+
+        internal static string GetMcpServerPackageSource(string packageId, string version)
+        {
+            string gitRef = string.IsNullOrWhiteSpace(version) || version == "unknown"
+                ? "main"
+                : $"v{version}";
+            int fragmentIndex = packageId?.LastIndexOf('#') ?? -1;
+            if (fragmentIndex >= 0 && fragmentIndex < packageId.Length - 1)
+            {
+                gitRef = packageId.Substring(fragmentIndex + 1);
+            }
+
+            return $"git+https://github.com/MuiSim/unity-mcp@{gitRef}#subdirectory=Server";
         }
 
         /// <summary>

@@ -52,11 +52,22 @@ Control the Unity Editor in natural language from any MCP client — create scen
 **Requirements:** Unity **2021.3 LTS → 6.x** · Python **3.10+** (via [`uv`](https://docs.astral.sh/uv/)). Works with **any MCP client** — Claude Desktop & Code, Cursor, VS Code, Windsurf, Cline, Gemini CLI, and more.
 
 1. **Install** — Unity → Package Manager → Add from git URL:
-   `https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#muisim-telemetry-and-update-checks`
-2. **Select the matching server** — `Window → MCP for Unity → Advanced Settings → Server Source Override`:
-   `git+https://github.com/MuiSim/unity-mcp@muisim-telemetry-and-update-checks#subdirectory=Server`
-3. **Configure** — `Window → MCP for Unity → Configure All Detected Clients`.
-4. **Prompt** — *"Create a cube at the origin and add a Rigidbody."* The cube appears in seconds.
+   `https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.1` &nbsp;_(pin `#v10.3.1` for this fork release)_
+2. **Configure** — `Window → MCP for Unity → Configure All Detected Clients`.
+3. **Prompt** — *"Create a cube at the origin and add a Rigidbody."* The cube appears in seconds.
+
+### Pinning the install version
+
+`#v10.3.1` selects a fixed release instead of a moving branch. Unity keeps that
+version until you change the Git URL to another release tag. The default Python
+server source uses the same tag automatically:
+`git+https://github.com/MuiSim/unity-mcp@v10.3.1#subdirectory=Server`.
+Leave **Advanced Settings → Server Source Override** empty to use this matching
+version.
+
+You can also track `#main` or `#beta`; those are moving branches, not version pins.
+The matching Python server follows the selected branch. These fork changes are
+available from `#v10.3.1` independently of when they are merged into those branches.
 
 ### After installing
 
@@ -66,13 +77,11 @@ also disables the analytics beacon. No owner-controlled server or local event-fi
 exporter is enabled yet.
 
 Package update checks use `MuiSim/unity-mcp` on GitHub, checking `main` or `beta`
-as appropriate. The install and server URLs above select the published feature
-branch because these changes have not yet been merged into those channels.
-After they are merged, use `#beta` (or `#main` for stable builds) for the Unity
-package and clear **Server Source Override** to use the fork's matching default.
+as appropriate. Update notifications do not change a pinned installation.
 
 If upgrading an existing installation, replace any upstream server-source
-override, regenerate MCP client configurations, and restart the MCP server/client.
+override (clear it to use the matching version), regenerate MCP client
+configurations, and restart the MCP server/client.
 Existing configurations may still launch the upstream PyPI server, which does not
 inherit this fork's reporting policy. Changes installed from this fork apply to
 that build, not to separately installed upstream packages.

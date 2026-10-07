@@ -1,6 +1,6 @@
 [project]
 name = "mcpforunityserver"
-version = "10.3.0"
+version = "10.3.1"
 description = "MCP for Unity Server: A Unity package for Unity Editor integration via the Model Context Protocol (MCP)."
 readme = "README.md"
 license = "MIT"
@@ -49,9 +49,9 @@ dev = [
 [project.urls]
 Homepage = "https://muisim.github.io/unity-mcp/"
 Documentation = "https://muisim.github.io/unity-mcp/"
-Repository = "https://github.com/CoplayDev/unity-mcp.git"
-Issues = "https://github.com/CoplayDev/unity-mcp/issues"
-Changelog = "https://github.com/CoplayDev/unity-mcp/releases"
+Repository = "https://github.com/MuiSim/unity-mcp.git"
+Issues = "https://github.com/MuiSim/unity-mcp/issues"
+Changelog = "https://github.com/MuiSim/unity-mcp/releases"
 
 [project.scripts]
 mcp-for-unity = "main:main"
