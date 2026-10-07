@@ -159,13 +159,11 @@ API key authentication (remote-hosted mode):
 - `UNITY_MCP_API_KEY_SERVICE_TOKEN_HEADER` - Header name for server-to-auth-service authentication
 - `UNITY_MCP_API_KEY_SERVICE_TOKEN` - Token value sent to the auth service for server authentication
 
-Telemetry:
-
-- `DISABLE_TELEMETRY=1` - Disable anonymous telemetry (opt-out)
-- `UNITY_MCP_DISABLE_TELEMETRY=1` - Same as `DISABLE_TELEMETRY`
-- `MCP_DISABLE_TELEMETRY=1` - Same as `DISABLE_TELEMETRY`
-- `UNITY_MCP_TELEMETRY_ENDPOINT` - Override telemetry endpoint URL
-- `UNITY_MCP_TELEMETRY_TIMEOUT` - Override telemetry request timeout (seconds)
+Remote telemetry reporting is disabled in this fork. Telemetry events can still
+be created, and local UUID and milestone storage remains available. The existing
+`DISABLE_TELEMETRY`, `UNITY_MCP_DISABLE_TELEMETRY`, and `MCP_DISABLE_TELEMETRY`
+environment variables disable collection. Endpoint overrides do not enable
+remote reporting.
 
 ### Examples
 
@@ -193,11 +191,8 @@ uvx --from mcpforunityserver mcp-for-unity \
   --api-key-login-url https://app.example.com/api-keys
 ```
 
-**Disable telemetry:**
-
-```bash
-DISABLE_TELEMETRY=1 uvx --from mcpforunityserver mcp-for-unity --transport stdio
-```
+The server in this checkout does not report telemetry. Upstream PyPI packages
+are separate builds and do not inherit this fork's telemetry policy.
 
 ---
 

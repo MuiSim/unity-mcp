@@ -8,13 +8,15 @@ description: How MCP for Unity tracks adoption with cookieless, aggregate-only a
 
 MCP for Unity tracks adoption with several aggregate signals, ordered from most to least honest about *real users*:
 
-- **In-product DAU / WAU** — the true active-user count, deduplicated per anonymous install UUID by the in-product telemetry (`Server/src/core/telemetry.py`). Surfacing it on this dashboard needs a read API on the Coplay telemetry backend.
+- **In-product DAU / WAU** — unavailable in this fork because telemetry events are not reported to a remote backend.
 - **Unique repo cloners / viewers (14-day)** — from the GitHub repository traffic API; a strong proxy for developers actually pulling the code. Only collaborators can read it (needs a token), so it is private by nature.
 - **GitHub stars / forks** — real accounts that starred or forked; public, an interest (not usage) signal.
 - **PyPI installs** — daily/weekly/monthly download counts for `mcpforunityserver` from the public [pypistats.org](https://pypistats.org/packages/mcpforunityserver) API. **Heavily inflated** by CI, mirrors, `uvx` re-fetches, and Docker rebuilds — an install-event *reach* number, not a user count. A downloads badge appears in the README.
-- **Docs traffic** — aggregate pageview totals from [GoatCounter](https://www.goatcounter.com/) when provisioned.
+- **Docs traffic** — new pageview reporting to GoatCounter is disabled in this fork.
 
-All sources are **cookieless, store no personal data, and expose only aggregates**. The DAU/WAU source is the [in-product telemetry](./telemetry) that runs inside the Unity Editor and is controlled by the user from the MCP for Unity settings window.
+The remaining statistics are read-only aggregate queries. [In-product telemetry](./telemetry)
+can still be created locally, but is not uploaded. The documentation site does not
+load a GoatCounter beacon, even when `GOATCOUNTER_CODE` is set.
 
 ## What is public vs private
 
@@ -46,12 +48,14 @@ Stars, forks, and PyPI numbers work out of the box. The two highest-signal rows 
 
 **In-product DAU / WAU (the true active-user count):**
 
-- The data is already collected by `Server/src/core/telemetry.py` (deduplicated per anonymous install UUID) and POSTed to the Coplay telemetry backend. Surfacing it here needs a **read / aggregate API** on that backend plus a token — back-end work owned by Coplay. Once available, add a `COPLAY_STATS_TOKEN` secret and a fetch in `fetch-stats.mjs`.
+- Remote reporting is disabled. A future owner-controlled backend or local-file
+  review implementation would need an explicit implementation change.
 
 **Docs traffic (GoatCounter):**
 
 1. Create a free [goatcounter.com](https://www.goatcounter.com/) site (e.g. code `mcp-for-unity`); keep its dashboard **private**.
 2. Generate an API token with read access to stats.
-3. Add secrets `GOATCOUNTER_TOKEN` (token) and `GOATCOUNTER_SITE` (site code), and an **Actions variable** `GOATCOUNTER_CODE` (same site code) so the docs build injects the cookieless beacon — collection happens on the public site, the numbers stay private.
+3. Add secrets `GOATCOUNTER_TOKEN` (token) and `GOATCOUNTER_SITE` (site code) only
+   to read historical totals. The documentation build does not inject a beacon.
 
 Then run **Actions → Adoption stats → Run workflow**. The `stats` workflow needs only `contents: read` — it posts to the run summary and never commits.

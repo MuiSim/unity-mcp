@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using System.Net;
+using System.Text;
 using NUnit.Framework;
 using UnityEditor;
 using MCPForUnity.Editor.Services;
@@ -232,7 +235,7 @@ namespace MCPForUnityTests.Editor.Services
             var mockService = new TestablePackageUpdateService
             {
                 IsGitInstallationResult = false,
-                AssetStoreFetchResult = "9.9.9"
+                GitFetchResult = "9.9.9"
             };
 
             // Act
@@ -242,11 +245,11 @@ namespace MCPForUnityTests.Editor.Services
             Assert.IsTrue(result.CheckSucceeded, "Check should succeed with valid Asset Store cache");
             Assert.AreEqual(cachedVersion, result.LatestVersion, "Should return cached Asset Store version");
             Assert.IsTrue(result.UpdateAvailable, "Update should be available (9.0.1 > 9.0.0)");
-            Assert.IsFalse(mockService.AssetStoreFetchCalled, "Should not fetch when Asset Store cache is valid");
+            Assert.IsFalse(mockService.GitFetchCalled, "Should not fetch when Asset Store cache is valid");
         }
 
         [Test]
-        public void CheckForUpdate_FetchesAssetStoreJson_WhenCacheExpired()
+        public void CheckForUpdate_FetchesForkGitHubVersion_ForAssetStoreInstall()
         {
             // Arrange: Set expired Asset Store cache and a valid Git cache to ensure separation
             string yesterday = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
@@ -258,7 +261,7 @@ namespace MCPForUnityTests.Editor.Services
             var mockService = new TestablePackageUpdateService
             {
                 IsGitInstallationResult = false,
-                AssetStoreFetchResult = "9.1.0"
+                GitFetchResult = "9.1.0"
             };
 
             // Act
@@ -266,18 +269,19 @@ namespace MCPForUnityTests.Editor.Services
 
             // Assert
             Assert.IsTrue(result.CheckSucceeded, "Check should succeed when fetch returns a version");
-            Assert.AreEqual("9.1.0", result.LatestVersion, "Should use fetched Asset Store version");
-            Assert.IsTrue(mockService.AssetStoreFetchCalled, "Should fetch when Asset Store cache is expired");
+            Assert.AreEqual("9.1.0", result.LatestVersion, "Should use fetched GitHub version");
+            Assert.IsTrue(mockService.GitFetchCalled, "Should fetch from GitHub when cache is expired");
+            Assert.AreEqual("main", mockService.GitFetchBranch);
         }
 
         [Test]
-        public void CheckForUpdate_ReturnsAssetStoreFailureMessage_WhenFetchFails()
+        public void CheckForUpdate_ReturnsFailureMessage_WhenAssetStoreGitHubFetchFails()
         {
             // Arrange
             var mockService = new TestablePackageUpdateService
             {
                 IsGitInstallationResult = false,
-                AssetStoreFetchResult = null
+                GitFetchResult = null
             };
 
             // Act
@@ -286,7 +290,7 @@ namespace MCPForUnityTests.Editor.Services
             // Assert
             Assert.IsFalse(result.CheckSucceeded, "Check should fail when Asset Store fetch fails");
             Assert.IsFalse(result.UpdateAvailable, "No update should be reported when fetch fails");
-            Assert.AreEqual("Failed to check for Asset Store updates (network issue or offline)", result.Message);
+            Assert.AreEqual("Failed to check for updates (network issue or offline)", result.Message);
             Assert.IsNull(result.LatestVersion, "Latest version should be null when fetch fails");
         }
 
@@ -324,6 +328,49 @@ namespace MCPForUnityTests.Editor.Services
             // Act & Assert - should not throw
             Assert.DoesNotThrow(() => _service.ClearCache(), "Should not throw when clearing non-existent cache");
         }
+
+        [TestCase(true, "main", "main")]
+        [TestCase(true, "beta", "beta")]
+        [TestCase(false, "beta", "main")]
+        public void FetchAndCompare_RequestsForkPackageJson(bool isGitInstallation, string branch, string expectedBranch)
+        {
+            var service = new RecordingPackageUpdateService();
+
+            var result = service.FetchAndCompare("1.0.0", isGitInstallation, branch);
+
+            Assert.IsTrue(result.CheckSucceeded);
+            Assert.AreEqual("99.0.0", result.LatestVersion);
+            Assert.IsTrue(result.UpdateAvailable);
+            Assert.AreEqual(
+                $"https://raw.githubusercontent.com/MuiSim/unity-mcp/{expectedBranch}/MCPForUnity/package.json",
+                service.RequestedUri.AbsoluteUri);
+        }
+
+        [Test]
+        public void TryGetCachedResult_IgnoresUpstreamCache()
+        {
+            const string upstreamDateKey = "MCPForUnity.LastUpdateCheck";
+            const string upstreamVersionKey = "MCPForUnity.LatestKnownVersion";
+            string oldDate = EditorPrefs.GetString(upstreamDateKey, "");
+            string oldVersion = EditorPrefs.GetString(upstreamVersionKey, "");
+            bool hadDate = EditorPrefs.HasKey(upstreamDateKey);
+            bool hadVersion = EditorPrefs.HasKey(upstreamVersionKey);
+            try
+            {
+                EditorPrefs.SetString(upstreamDateKey, DateTime.Now.ToString("yyyy-MM-dd"));
+                EditorPrefs.SetString(upstreamVersionKey, "99.0.0");
+
+                var service = new TestablePackageUpdateService();
+                Assert.IsNull(service.TryGetCachedResult("1.0.0"));
+            }
+            finally
+            {
+                if (hadDate) EditorPrefs.SetString(upstreamDateKey, oldDate);
+                else EditorPrefs.DeleteKey(upstreamDateKey);
+                if (hadVersion) EditorPrefs.SetString(upstreamVersionKey, oldVersion);
+                else EditorPrefs.DeleteKey(upstreamVersionKey);
+            }
+        }
     }
 
     /// <summary>
@@ -333,9 +380,8 @@ namespace MCPForUnityTests.Editor.Services
     {
         public bool IsGitInstallationResult { get; set; } = true;
         public string GitFetchResult { get; set; }
-        public string AssetStoreFetchResult { get; set; }
         public bool GitFetchCalled { get; private set; }
-        public bool AssetStoreFetchCalled { get; private set; }
+        public string GitFetchBranch { get; private set; }
 
         public override bool IsGitInstallation()
         {
@@ -345,13 +391,47 @@ namespace MCPForUnityTests.Editor.Services
         protected override string FetchLatestVersionFromGitHub(string branch)
         {
             GitFetchCalled = true;
+            GitFetchBranch = branch;
             return GitFetchResult;
         }
+    }
 
-        protected override string FetchLatestVersionFromAssetStoreJson()
+    internal class RecordingPackageUpdateService : PackageUpdateService
+    {
+        public Uri RequestedUri { get; private set; }
+
+        protected override WebClient CreateWebClient()
         {
-            AssetStoreFetchCalled = true;
-            return AssetStoreFetchResult;
+            return new RecordingWebClient(uri => RequestedUri = uri);
+        }
+
+        private sealed class RecordingWebClient : WebClient
+        {
+            private readonly Action<Uri> _record;
+
+            public RecordingWebClient(Action<Uri> record)
+            {
+                _record = record;
+            }
+
+            protected override WebRequest GetWebRequest(Uri address)
+            {
+                _record(address);
+                return new PackageJsonRequest();
+            }
+        }
+
+        private sealed class PackageJsonRequest : WebRequest
+        {
+            public override WebResponse GetResponse() => new PackageJsonResponse();
+        }
+
+        private sealed class PackageJsonResponse : WebResponse
+        {
+            private readonly byte[] _content = Encoding.UTF8.GetBytes("{\"version\":\"99.0.0\"}");
+            public override long ContentLength => _content.Length;
+            public override WebHeaderCollection Headers => new WebHeaderCollection();
+            public override Stream GetResponseStream() => new MemoryStream(_content);
         }
     }
 }

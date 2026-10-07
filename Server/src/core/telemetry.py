@@ -2,9 +2,9 @@
 Privacy-focused, anonymous telemetry system for MCP for Unity
 Inspired by Onyx's telemetry implementation with Unity-specific adaptations
 
-Fire-and-forget telemetry sender with a single background worker.
+Local telemetry collection with a single background worker.
 - No context/thread-local propagation to avoid re-entrancy into tool resolution.
-- Small network timeouts to prevent stalls.
+- Remote reporting is disabled in this fork.
 """
 
 import contextlib
@@ -15,9 +15,7 @@ import json
 import logging
 import os
 from pathlib import Path
-import platform
 import queue
-import sys
 import threading
 import time
 from typing import Any
@@ -25,13 +23,6 @@ from urllib.parse import urlparse
 import uuid
 
 import tomli
-
-try:
-    import httpx
-    HAS_HTTPX = True
-except ImportError:
-    httpx = None  # type: ignore
-    HAS_HTTPX = False
 
 logger = logging.getLogger("unity-mcp-telemetry")
 PACKAGE_NAME = "mcpforunityserver"
@@ -141,7 +132,7 @@ class TelemetryConfig:
             except Exception:
                 continue
 
-        # Determine enabled flag: config -> env DISABLE_* opt-out
+        # These settings control collection only, not remote reporting.
         cfg_enabled = True if server_config is None else bool(
             getattr(server_config, "telemetry_enabled", True))
         self.enabled = cfg_enabled and not self._is_disabled()
@@ -160,7 +151,8 @@ class TelemetryConfig:
             self.endpoint = self._validated_endpoint(default_ep, default_ep)
         try:
             logger.info(
-                f"Telemetry configured: endpoint={self.endpoint} (default={default_ep}), timeout_env={os.environ.get('UNITY_MCP_TELEMETRY_TIMEOUT') or '<unset>'}")
+                "Telemetry configured: collection_enabled=%s, remote reporting disabled",
+                self.enabled)
         except Exception:
             pass
 
@@ -252,7 +244,7 @@ class TelemetryCollector:
         self._shutdown: bool = False
         # Load persistent data before starting worker so first events have UUID
         self._load_persistent_data()
-        self._worker: threading.Thread = threading.Thread(
+        self._worker = threading.Thread(
             target=self._worker_loop, daemon=True)
         self._worker.start()
 
@@ -331,8 +323,6 @@ class TelemetryCollector:
         if not self.config.enabled:
             return
 
-        # Allow fallback sender when httpx is unavailable (no early return)
-
         record = TelemetryRecord(
             record_type=record_type,
             timestamp=time.time(),
@@ -371,71 +361,8 @@ class TelemetryCollector:
             self._worker.join(timeout=2.0)
 
     def _send_telemetry(self, record: TelemetryRecord):
-        """Send telemetry data to endpoint"""
-        try:
-            # System fingerprint (top-level remains concise; details stored in data JSON)
-            _platform = platform.system()          # 'Darwin' | 'Linux' | 'Windows'
-            _source = sys.platform                 # 'darwin' | 'linux' | 'win32'
-            _platform_detail = f"{_platform} {platform.release()} ({platform.machine()})"
-            _python_version = platform.python_version()
-
-            # Enrich data JSON so BigQuery stores detailed fields without schema change
-            enriched_data = dict(record.data or {})
-            enriched_data.setdefault("platform_detail", _platform_detail)
-            enriched_data.setdefault("python_version", _python_version)
-
-            payload = {
-                "record": record.record_type.value,
-                "timestamp": record.timestamp,
-                "customer_uuid": record.customer_uuid,
-                "session_id": record.session_id,
-                "data": enriched_data,
-                "version": MCP_VERSION,
-                "platform": _platform,
-                "source": _source,
-            }
-
-            if record.milestone:
-                payload["milestone"] = record.milestone.value
-
-            # Prefer httpx when available; otherwise fall back to urllib
-            if httpx:
-                with httpx.Client(timeout=self.config.timeout) as client:
-                    # Re-validate endpoint at send time to handle dynamic changes
-                    endpoint = self.config._validated_endpoint(
-                        self.config.endpoint, self.config.default_endpoint)
-                    response = client.post(endpoint, json=payload)
-                    if 200 <= response.status_code < 300:
-                        logger.debug(f"Telemetry sent: {record.record_type}")
-                    else:
-                        logger.warning(
-                            f"Telemetry failed: HTTP {response.status_code}")
-            else:
-                import urllib.request
-                import urllib.error
-                data_bytes = json.dumps(payload).encode("utf-8")
-                endpoint = self.config._validated_endpoint(
-                    self.config.endpoint, self.config.default_endpoint)
-                req = urllib.request.Request(
-                    endpoint,
-                    data=data_bytes,
-                    headers={"Content-Type": "application/json"},
-                    method="POST",
-                )
-                try:
-                    with urllib.request.urlopen(req, timeout=self.config.timeout) as resp:
-                        if 200 <= resp.getcode() < 300:
-                            logger.debug(
-                                f"Telemetry sent (urllib): {record.record_type}")
-                        else:
-                            logger.warning(
-                                f"Telemetry failed (urllib): HTTP {resp.getcode()}")
-                except urllib.error.URLError as ue:
-                    logger.warning(f"Telemetry send failed (urllib): {ue}")
-
-        except Exception as e:
-            # Never let telemetry errors interfere with app functionality
-            logger.debug(f"Telemetry send failed: {e}")
+        """Consume an event without transmitting it to any server."""
+        logger.debug("Remote telemetry reporting disabled; processed %s", record.record_type)
 
 
 # Global telemetry instance
@@ -547,5 +474,5 @@ def record_failure(component: str, error: str, metadata: dict[str, Any] | None =
 
 
 def is_telemetry_enabled() -> bool:
-    """Check if telemetry is enabled"""
+    """Check if local telemetry collection is enabled."""
     return get_telemetry().config.enabled

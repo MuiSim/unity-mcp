@@ -1,5 +1,6 @@
 import os
 import importlib
+from unittest.mock import patch
 import pytest
 
 
@@ -44,19 +45,16 @@ def test_config_preferred_then_env_override(tmp_path, monkeypatch):
 
 
 def test_uuid_preserved_on_malformed_milestones(tmp_path, monkeypatch):
-    monkeypatch.setenv("XDG_DATA_HOME", str(tmp_path))
-
-    # Import the telemetry module
     telemetry = importlib.import_module("core.telemetry")
-    importlib.reload(telemetry)
-
-    tc1 = telemetry.TelemetryCollector()
-    first_uuid = tc1._customer_uuid
-
-    # Write malformed milestones
-    tc1.config.milestones_file.write_text("{not-json}", encoding="utf-8")
-
-    # Reload collector; UUID should remain same despite bad milestones
-    importlib.reload(telemetry)
-    tc2 = telemetry.TelemetryCollector()
-    assert tc2._customer_uuid == first_uuid
+    with patch("core.telemetry.TelemetryConfig._get_data_directory", return_value=tmp_path):
+        tc1 = telemetry.TelemetryCollector()
+        try:
+            first_uuid = tc1._customer_uuid
+            tc1.config.milestones_file.write_text("{not-json}", encoding="utf-8")
+            tc2 = telemetry.TelemetryCollector()
+            try:
+                assert tc2._customer_uuid == first_uuid
+            finally:
+                tc2.shutdown()
+        finally:
+            tc1.shutdown()

@@ -98,7 +98,7 @@ namespace MCPForUnity.Editor.Windows.Components.Advanced
             if (uvxPathOverride != null)
                 uvxPathOverride.tooltip = "Override path to uvx executable. Leave empty for auto-detection.";
             if (gitUrlOverride != null)
-                gitUrlOverride.tooltip = "Override server source for uvx --from. Leave empty to use default PyPI package. Example local dev: /path/to/unity-mcp/Server";
+                gitUrlOverride.tooltip = "Override server source for uvx --from. Leave empty to use MuiSim/unity-mcp on GitHub. Other sources may still report telemetry. Example local dev: /path/to/unity-mcp/Server";
             if (debugLogsToggle != null)
             {
                 debugLogsToggle.tooltip = "Enable verbose debug logging to the Unity Console.";
@@ -158,7 +158,7 @@ namespace MCPForUnity.Editor.Windows.Components.Advanced
             if (browseGitUrlButton != null)
                 browseGitUrlButton.tooltip = "Select local server source folder";
             if (clearGitUrlButton != null)
-                clearGitUrlButton.tooltip = "Clear override and use default PyPI package";
+                clearGitUrlButton.tooltip = "Clear override and use MuiSim/unity-mcp on GitHub";
             if (browseDeploySourceButton != null)
                 browseDeploySourceButton.tooltip = "Select MCPForUnity source folder";
             if (clearDeploySourceButton != null)

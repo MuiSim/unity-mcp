@@ -16,6 +16,9 @@ Controls and queries the Unity editor's state and settings. Read-only actions: t
 
 ## Parameters
 
+In this fork, `telemetry_status` reports whether local event collection is enabled.
+`telemetry_ping` creates an event locally; neither action enables remote reporting.
+
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `action` | `Literal['telemetry_status', 'telemetry_ping', 'play', 'pause', 'stop', 'set_active_tool', 'add_tag', 'remove_tag', 'add_layer', 'remove_layer', 'deploy_package', 'restore_package', 'undo', 'redo']` | yes | Get and update the Unity Editor state. deploy_package copies the configured MCPForUnity source into the project's package location (triggers recompile). restore_package reverts the last deployment from backup. undo/redo perform editor undo/redo. For prefab editing (open/save/close prefab stage), use manage_prefabs. |
@@ -32,4 +35,3 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 <!-- examples:start -->
 *No examples yet. Add usage examples here — they will be preserved across regenerations.*
 <!-- examples:end -->
-

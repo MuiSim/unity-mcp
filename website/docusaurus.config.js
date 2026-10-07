@@ -180,7 +180,6 @@ const config = {
         ],
       },
     ],
-    ...(process.env.GOATCOUNTER_CODE ? ['docusaurus-plugin-goatcounter'] : []),
   ],
 
   themeConfig:
@@ -263,7 +262,6 @@ const config = {
         defaultMode: 'light',
         respectPrefersColorScheme: true,
       },
-      ...(process.env.GOATCOUNTER_CODE ? { goatcounter: { code: process.env.GOATCOUNTER_CODE } } : {}),
     }),
 };
 

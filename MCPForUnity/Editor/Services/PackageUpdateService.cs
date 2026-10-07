@@ -10,7 +10,7 @@ using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 namespace MCPForUnity.Editor.Services
 {
     /// <summary>
-    /// Service for checking package updates from GitHub or Asset Store metadata
+    /// Service for checking package updates from MuiSim/unity-mcp on GitHub.
     /// </summary>
     public class PackageUpdateService : IPackageUpdateService
     {
@@ -21,9 +21,8 @@ namespace MCPForUnity.Editor.Services
         private const string CachedBetaVersionKey = EditorPrefKeys.LatestKnownVersion + ".beta";
         private const string LastAssetStoreCheckDateKey = EditorPrefKeys.LastAssetStoreUpdateCheck;
         private const string CachedAssetStoreVersionKey = EditorPrefKeys.LatestKnownAssetStoreVersion;
-        private const string MainPackageJsonUrl = "https://raw.githubusercontent.com/CoplayDev/unity-mcp/main/MCPForUnity/package.json";
-        private const string BetaPackageJsonUrl = "https://raw.githubusercontent.com/CoplayDev/unity-mcp/beta/MCPForUnity/package.json";
-        private const string AssetStoreVersionUrl = "https://gqoqjkkptwfbkwyssmnj.supabase.co/storage/v1/object/public/coplay-images/assetstoreversion.json";
+        private const string MainPackageJsonUrl = "https://raw.githubusercontent.com/MuiSim/unity-mcp/main/MCPForUnity/package.json";
+        private const string BetaPackageJsonUrl = "https://raw.githubusercontent.com/MuiSim/unity-mcp/beta/MCPForUnity/package.json";
 
         /// <inheritdoc/>
         public UpdateCheckResult CheckForUpdate(string currentVersion)
@@ -53,9 +52,7 @@ namespace MCPForUnity.Editor.Services
                 };
             }
 
-            string latestVersion = isGitInstallation
-                ? FetchLatestVersionFromGitHub(gitBranch)
-                : FetchLatestVersionFromAssetStoreJson();
+            string latestVersion = FetchLatestVersionFromGitHub(gitBranch);
 
             if (!string.IsNullOrEmpty(latestVersion))
             {
@@ -76,9 +73,7 @@ namespace MCPForUnity.Editor.Services
             {
                 CheckSucceeded = false,
                 UpdateAvailable = false,
-                Message = isGitInstallation
-                    ? "Failed to check for updates (network issue or offline)"
-                    : "Failed to check for Asset Store updates (network issue or offline)"
+                Message = "Failed to check for updates (network issue or offline)"
             };
         }
 
@@ -124,9 +119,7 @@ namespace MCPForUnity.Editor.Services
         /// <inheritdoc/>
         public UpdateCheckResult FetchAndCompare(string currentVersion, bool isGitInstallation, string gitBranch)
         {
-            string latestVersion = isGitInstallation
-                ? FetchLatestVersionFromGitHub(gitBranch)
-                : FetchLatestVersionFromAssetStoreJson();
+            string latestVersion = FetchLatestVersionFromGitHub(isGitInstallation ? gitBranch : "main");
 
             if (!string.IsNullOrEmpty(latestVersion))
             {
@@ -143,9 +136,7 @@ namespace MCPForUnity.Editor.Services
             {
                 CheckSucceeded = false,
                 UpdateAvailable = false,
-                Message = isGitInstallation
-                    ? "Failed to check for updates (network issue or offline)"
-                    : "Failed to check for Asset Store updates (network issue or offline)"
+                Message = "Failed to check for updates (network issue or offline)"
             };
         }
 
@@ -346,7 +337,7 @@ namespace MCPForUnity.Editor.Services
             try
             {
                 // GitHub API endpoint (Option 1 - has rate limits):
-                // https://api.github.com/repos/CoplayDev/unity-mcp/releases/latest
+                // https://api.github.com/repos/MuiSim/unity-mcp/releases/latest
                 //
                 // We use Option 2 (package.json directly) because:
                 // - No API rate limits (GitHub serves raw files freely)
@@ -384,32 +375,6 @@ namespace MCPForUnity.Editor.Services
             public string PrereleaseLabel;
             public int PrereleaseNumber;
             public bool IsPrerelease;
-        }
-
-        /// <summary>
-        /// Fetches the latest Asset Store version from a hosted JSON file.
-        /// </summary>
-        protected virtual string FetchLatestVersionFromAssetStoreJson()
-        {
-            try
-            {
-                using (var client = CreateWebClient())
-                {
-                    client.Headers.Add("User-Agent", "Unity-MCPForUnity-AssetStoreUpdateChecker");
-                    string jsonContent = client.DownloadString(AssetStoreVersionUrl);
-
-                    var versionJson = JObject.Parse(jsonContent);
-                    string version = versionJson["version"]?.ToString();
-
-                    return string.IsNullOrEmpty(version) ? null : version;
-                }
-            }
-            catch (Exception ex)
-            {
-                // Silent fail - don't interrupt the user if network is unavailable
-                McpLog.Info($"Asset Store update check failed (this is normal if offline): {ex.Message}");
-                return null;
-            }
         }
 
         protected virtual WebClient CreateWebClient()
