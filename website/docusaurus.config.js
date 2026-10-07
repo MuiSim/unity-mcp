@@ -62,12 +62,12 @@ const config = {
   tagline: 'AI-driven game development for the Unity Editor',
   favicon: 'img/favicon.png',
 
-  // Hosted on GitHub Pages under the CoplayDev org.
+  // Hosted on GitHub Pages for the MuiSim fork.
   // Custom domain (CNAME) deferred — see plan Phase 2.
-  url: 'https://coplaydev.github.io',
+  url: 'https://muisim.github.io',
   baseUrl,
 
-  organizationName: 'CoplayDev',
+  organizationName: 'MuiSim',
   projectName: 'unity-mcp',
   deploymentBranch: 'gh-pages',
   trailingSlash: false,

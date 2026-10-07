@@ -4,7 +4,7 @@ contact_links:
     url: https://discord.gg/y4p8KfzrN4
     about: Best for quick questions, troubleshooting, and design discussion.
   - name: Documentation
-    url: https://coplaydev.github.io/unity-mcp/
+    url: https://muisim.github.io/unity-mcp/
     about: Getting Started, guides, tool reference, and architecture notes.
   - name: Security vulnerability
     url: https://github.com/CoplayDev/unity-mcp/security/advisories/new

@@ -1,6 +1,6 @@
 # Unity-MCP Tools Reference
 
-Every built-in MCP tool, with its main actions, parameters, and usage examples. For a tool's full parameter table, open its generated page: `https://coplaydev.github.io/unity-mcp/reference/tools/<group>/<tool>` (tools with no group, such as `manage_tools`, are under `core`).
+Every built-in MCP tool, with its main actions, parameters, and usage examples. For a tool's full parameter table, open its generated page: `https://muisim.github.io/unity-mcp/reference/tools/<group>/<tool>` (tools with no group, such as `manage_tools`, are under `core`).
 
 Each section names the tool's group when it is not `core`. A tool outside `core` can be hidden (over HTTP, only `core` starts enabled); enable its group with `manage_tools(action="activate", group="<group>")`.
 
@@ -118,7 +118,7 @@ manage_tools(action="sync")                         # re-read the tool toggles i
 manage_tools(action="reset")                        # back to the defaults
 ```
 
-Groups: `core`, `animation`, `asset_gen`, `docs`, `probuilder`, `profiling`, `scripting_ext`, `testing`, `ui`, `vfx`. The `mcpforunity://tool-groups` resource lists the same catalog read-only. [Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/core/manage_tools)
+Groups: `core`, `animation`, `asset_gen`, `docs`, `probuilder`, `profiling`, `scripting_ext`, `testing`, `ui`, `vfx`. The `mcpforunity://tool-groups` resource lists the same catalog read-only. [Full parameters](https://muisim.github.io/unity-mcp/reference/tools/core/manage_tools)
 
 ### debug_request_context
 
@@ -128,7 +128,7 @@ Diagnostics: returns the request's `client_id`, `session_id` and meta, the sessi
 debug_request_context()
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/core/debug_request_context)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/core/debug_request_context)
 
 ---
 
@@ -462,7 +462,7 @@ Legacy whole-file router with three actions: `create`, `read`, `delete`. `name` 
 manage_script(action="read", name="PlayerController", path="Assets/Scripts")  # returns the file contents
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/core/manage_script)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/core/manage_script)
 
 ### manage_script_capabilities
 
@@ -472,7 +472,7 @@ Lists the edit ops `script_apply_edits` supports (structured and text), the max 
 manage_script_capabilities()
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/core/manage_script_capabilities)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/core/manage_script_capabilities)
 
 ---
 
@@ -672,7 +672,7 @@ manage_shader(action="create", name="UnlitTint", path="Assets/Shaders",
               contents='Shader "Custom/UnlitTint" { ... }')
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/vfx/manage_shader)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/vfx/manage_shader)
 
 ---
 
@@ -822,7 +822,7 @@ manage_build(action="build", target="windows64", output_path="Builds/Win/Game.ex
 manage_build(action="status", job_id="<job_id>")
 ```
 
-Targets: `windows64`, `osx`, `linux64`, `android`, `ios`, `webgl`, `uwp`, `tvos`, `visionos`. Switching `platform` reimports assets. [Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/core/manage_build)
+Targets: `windows64`, `osx`, `linux64`, `android`, `ios`, `webgl`, `uwp`, `tvos`, `visionos`. Switching `platform` reimports assets. [Full parameters](https://muisim.github.io/unity-mcp/reference/tools/core/manage_build)
 
 ---
 
@@ -1672,7 +1672,7 @@ manage_animation(action="controller_add_transition", controller_path="Assets/Ani
                              "conditions": [{"parameter": "Speed", "mode": "greater", "threshold": 0.1}]})
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/animation/manage_animation)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/animation/manage_animation)
 
 ### manage_sprite
 
@@ -1690,7 +1690,7 @@ manage_sprite(action="full_setup", path="Assets/Sprites/hero.png", cols=6, rows=
               add_to_scene=True, scene_target="Hero")
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/animation/manage_sprite)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/animation/manage_sprite)
 
 ---
 
@@ -1706,7 +1706,7 @@ manage_vfx(action="particle_set_main", target="Sparks",
            properties={"startLifetime": 0.8, "startSpeed": 6, "startSize": 0.1, "maxParticles": 200})
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/vfx/manage_vfx)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/vfx/manage_vfx)
 
 ---
 
@@ -1722,7 +1722,7 @@ Runs a C# method body inside the editor, compiled in memory (no script file). `S
 execute_code(action="execute", code="return Selection.gameObjects.Select(g => g.name).ToArray();")
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/scripting_ext/execute_code)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/scripting_ext/execute_code)
 
 ### manage_scriptable_object
 
@@ -1734,7 +1734,7 @@ manage_scriptable_object(action="modify", target={"path": "Assets/Data/Goblin.as
                                   {"propertyPath": "drops", "op": "array_resize", "value": 2}])
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/scripting_ext/manage_scriptable_object)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/scripting_ext/manage_scriptable_object)
 
 ---
 
@@ -1751,7 +1751,7 @@ generate_image(action="generate", provider="fal", mode="text", prompt="mossy sto
                width=1024, height=1024, output_folder="Assets/Generated")
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/asset_gen/generate_image)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/asset_gen/generate_image)
 
 ### generate_model
 
@@ -1762,7 +1762,7 @@ generate_model(action="generate", provider="tripo", mode="text", prompt="low-pol
                format="glb", target_size=1.0)
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/asset_gen/generate_model)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/asset_gen/generate_model)
 
 ### generate_audio
 
@@ -1772,7 +1772,7 @@ Sound effects and music from a text prompt with fal.ai, imported as an AudioClip
 generate_audio(action="generate", provider="fal", prompt="short bright coin pickup chime", duration=2)
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/asset_gen/generate_audio)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/asset_gen/generate_audio)
 
 ### import_model
 
@@ -1783,7 +1783,7 @@ import_model(action="search", query="wooden barrel", downloadable=True, count=5)
 import_model(action="import", uid="<uid from search>", target_size=1.0)
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/asset_gen/import_model)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/asset_gen/import_model)
 
 ### import_model_file
 
@@ -1793,7 +1793,7 @@ Imports a model file already on disk (`.fbx`, `.obj`, `.glb`, `.gltf`, or a `.zi
 import_model_file(source_path="C:/Exports/robot.fbx", animation_type="humanoid", target_size=1.8)
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/asset_gen/import_model_file)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/asset_gen/import_model_file)
 
 ### blender_bridge
 
@@ -1803,4 +1803,4 @@ Drives a running Blender that has the BlenderMCP addon connected (default `127.0
 blender_bridge(action="import_model", object_names=["Robot"], target_size=2.0, position=[0, 0, 0])
 ```
 
-[Full parameters](https://coplaydev.github.io/unity-mcp/reference/tools/asset_gen/blender_bridge)
+[Full parameters](https://muisim.github.io/unity-mcp/reference/tools/asset_gen/blender_bridge)

@@ -28,7 +28,7 @@ MCP for Unity is intentionally fail-closed:
 
 - **HTTP Local** binds to loopback only by default (`127.0.0.1`, `localhost`, `::1`). LAN bind (`0.0.0.0`, `::`) requires explicit opt-in via **Allow LAN Bind (HTTP Local)** in Advanced Settings.
 - **HTTP Remote** requires `https://` by default. Plaintext `http://` for remote endpoints requires explicit opt-in via **Allow Insecure Remote HTTP**.
-- Remote-hosted mode requires API key authentication. See [Remote Server Auth](https://coplaydev.github.io/unity-mcp/guides/remote-server-auth).
+- Remote-hosted mode requires API key authentication. See [Remote Server Auth](https://muisim.github.io/unity-mcp/guides/remote-server-auth).
 
 If you find a way to bypass any of these guards, that qualifies as a security vulnerability and warrants a private report.
 

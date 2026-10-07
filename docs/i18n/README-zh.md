@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[English](../../README.md) <img src="../images/connector.svg" alt="↔" height="14"> [简体中文](README-zh.md) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; [Discord](https://discord.gg/y4p8KfzrN4) <img src="../images/connector.svg" alt="↔" height="14"> [Wiki](https://coplaydev.github.io/unity-mcp/)
+[English](../../README.md) <img src="../images/connector.svg" alt="↔" height="14"> [简体中文](README-zh.md) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; [Discord](https://discord.gg/y4p8KfzrN4) <img src="../images/connector.svg" alt="↔" height="14"> [Wiki](https://muisim.github.io/unity-mcp/)
 
 #### 由 [Aura](https://www.tryaura.dev/) 荣誉赞助并维护 —— 面向 Unreal 与 Unity 的 AI 助手。
 ##### 别错过 [Godot AI](https://github.com/hi-godot/godot-ai) 🤖，MCP for Unity 团队推出的全新开源项目！
@@ -31,7 +31,7 @@
 * **[v10.1.0](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.1.0)**（2026-07-13）
 * **[v10.0.2](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.0.2)**（2026-07-13）
 
-完整更新历史见 [发布说明](https://coplaydev.github.io/unity-mcp/releases)。
+完整更新历史见 [发布说明](https://muisim.github.io/unity-mcp/releases)。
 
 </details>
 
@@ -41,7 +41,7 @@
 
 用自然语言从任意 MCP 客户端操作 Unity 编辑器：搭场景、建 GameObject、写改 C# 脚本、调材质和着色器、跑测试、看性能、出包。50 个 MCP 工具入口，任意客户端可用，免费、MIT 开源。
 
-**[查看完整工具目录 →](https://coplaydev.github.io/unity-mcp/reference/tools/)**
+**[查看完整工具目录 →](https://muisim.github.io/unity-mcp/reference/tools/)**
 
 ---
 

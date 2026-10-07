@@ -253,7 +253,7 @@ def render_readme_recent(releases: list[dict], n: int = README_RECENT_COUNT) -> 
         lines.append(f"* **[{tag}{prerelease}]({url})** ({date}){suffix}")
     lines.append("")
     lines.append(
-        "Full history: [Release Notes](https://coplaydev.github.io/unity-mcp/releases)."
+        "Full history: [Release Notes](https://muisim.github.io/unity-mcp/releases)."
     )
     lines.append("")
     lines.append("</details>")

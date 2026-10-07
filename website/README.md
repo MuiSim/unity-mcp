@@ -1,6 +1,6 @@
 # MCP for Unity — Documentation Site
 
-Docusaurus 3.x site for MCP for Unity. Deployed to https://coplaydev.github.io/unity-mcp/ by `.github/workflows/docs-deploy.yml` on every push to `beta` that touches `website/**`, `docs/**`, or the Python tool registry.
+Docusaurus 3.x site for MCP for Unity. Deployed to https://muisim.github.io/unity-mcp/ by `.github/workflows/docs-deploy.yml` on every push to `beta` that touches `website/**`, `docs/**`, or the Python tool registry.
 
 ## Local development
 

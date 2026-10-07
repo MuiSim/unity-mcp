@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[English](README.md) <img src="docs/images/connector.svg" alt="↔" height="14"> [简体中文](docs/i18n/README-zh.md) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; [Discord](https://discord.gg/y4p8KfzrN4) <img src="docs/images/connector.svg" alt="↔" height="14"> [Wiki](https://coplaydev.github.io/unity-mcp/)
+[English](README.md) <img src="docs/images/connector.svg" alt="↔" height="14"> [简体中文](docs/i18n/README-zh.md) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; [Discord](https://discord.gg/y4p8KfzrN4) <img src="docs/images/connector.svg" alt="↔" height="14"> [Wiki](https://muisim.github.io/unity-mcp/)
 
 #### Proudly sponsored and maintained by [Aura](https://www.tryaura.dev/) — the AI assistant for Unreal & Unity.
 ##### And don't miss [Godot AI](https://github.com/hi-godot/godot-ai), the new open source project from the makers of MCP for Unity.
@@ -32,7 +32,7 @@
 * **[v10.1.0](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.1.0)** (2026-07-13)
 * **[v10.0.2](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.0.2)** (2026-07-13)
 
-Full history: [Release Notes](https://coplaydev.github.io/unity-mcp/releases).
+Full history: [Release Notes](https://muisim.github.io/unity-mcp/releases).
 
 </details>
 <!-- recent-updates:end -->
@@ -43,7 +43,7 @@ Full history: [Release Notes](https://coplaydev.github.io/unity-mcp/releases).
 
 Control the Unity Editor in natural language from any MCP client — create scenes & GameObjects, edit C# scripts, manage assets, run tests, profile, and build. 50 focused MCP tool entrypoints, any client, free & MIT.
 
-**[Browse the full tool catalog →](https://coplaydev.github.io/unity-mcp/reference/tools/)**
+**[Browse the full tool catalog →](https://muisim.github.io/unity-mcp/reference/tools/)**
 
 ---
 
@@ -88,15 +88,15 @@ that build, not to separately installed upstream packages.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Branch off `beta`, not `main`. The full dev setup, testing, and release process live in the [Contributing](https://coplaydev.github.io/unity-mcp/contributing/dev-setup) docs.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Branch off `beta`, not `main`. The full dev setup, testing, and release process live in the [Contributing](https://muisim.github.io/unity-mcp/contributing/dev-setup) docs.
 
 ## Advanced
 
-- **Multiple Unity instances** — [Multi-Instance Routing](https://coplaydev.github.io/unity-mcp/guides/multi-instance)
-- **Tool groups (vfx / animation / ui / testing / etc.)** — [Tool Groups](https://coplaydev.github.io/unity-mcp/guides/tool-groups)
-- **v10 asset generation and upgrade notes** — [v10 Migration](https://coplaydev.github.io/unity-mcp/migrations/v10)
-- **Roslyn script validation** — [Roslyn Validation](https://coplaydev.github.io/unity-mcp/guides/roslyn)
-- **Remote-hosted server with auth** — [Remote Server Auth](https://coplaydev.github.io/unity-mcp/guides/remote-server-auth)
+- **Multiple Unity instances** — [Multi-Instance Routing](https://muisim.github.io/unity-mcp/guides/multi-instance)
+- **Tool groups (vfx / animation / ui / testing / etc.)** — [Tool Groups](https://muisim.github.io/unity-mcp/guides/tool-groups)
+- **v10 asset generation and upgrade notes** — [v10 Migration](https://muisim.github.io/unity-mcp/migrations/v10)
+- **Roslyn script validation** — [Roslyn Validation](https://muisim.github.io/unity-mcp/guides/roslyn)
+- **Remote-hosted server with auth** — [Remote Server Auth](https://muisim.github.io/unity-mcp/guides/remote-server-auth)
 
 ## Star History
 

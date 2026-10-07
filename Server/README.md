@@ -268,7 +268,7 @@ Once connected, try these commands in your AI assistant:
 
 For complete documentation, troubleshooting, and advanced usage:
 
-📖 **[Full Documentation](https://coplaydev.github.io/unity-mcp/)**
+📖 **[Full Documentation](https://muisim.github.io/unity-mcp/)**
 
 ---
 
