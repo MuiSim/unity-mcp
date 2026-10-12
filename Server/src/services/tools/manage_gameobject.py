@@ -137,8 +137,10 @@ async def manage_gameobject(
     ctx: Context,
     action: Annotated[Literal["create", "modify", "delete", "duplicate",
                               "move_relative", "look_at"], "Action to perform on GameObject."] | None = None,
-    target: Annotated[str,
-                      "GameObject identifier by name, path, or instance ID for modify/delete/duplicate actions"] | None = None,
+    target: Annotated[str | int,
+                      "GameObject identifier by exact name, path, or instance ID (integer or numeric string). "
+                      "Modify can edit inactive objects without activating them. Names/paths use the current "
+                      "scene or prefab stage; IDs can address any loaded scene in the selected Unity instance."] | None = None,
     search_method: Annotated[
         Literal["by_id", "by_name", "by_path", "by_tag", "by_layer", "by_component"],
         "How to resolve 'target'. If omitted, Unity infers: instance ID -> by_id, "

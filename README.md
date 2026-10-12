@@ -79,6 +79,16 @@ merge into it. The fork has no `main` installation branch.
 
 ### After installing
 
+**GameObject lookup fix (branch only):** the stable branch fixes `modify` target
+resolution for inactive objects, IDs in non-active loaded scenes, and
+numeric-string IDs. The immutable `v10.3.0` tag does not contain this later fix.
+To use it, install
+`https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#muisim-stable-10-3-0-release`
+and leave **Server Source Override** empty (matching server:
+`https://github.com/MuiSim/unity-mcp/archive/muisim-stable-10-3-0-release.zip#subdirectory=Server`).
+Regenerate client configurations and restart the server. Instance IDs must come
+from the same Unity instance and must be rediscovered after scene reloads.
+
 This fork preserves telemetry event creation and local collection, but disables
 remote reporting in the Python server and Unity bridge. Its documentation site
 also disables the analytics beacon. No owner-controlled server or local event-file

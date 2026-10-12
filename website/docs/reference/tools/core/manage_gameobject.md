@@ -19,7 +19,7 @@ Performs CRUD operations on GameObjects. Actions: create, modify, delete, duplic
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `action` | `Literal['create', 'modify', 'delete', 'duplicate', 'move_relative', 'look_at'] \| None` | — | Action to perform on GameObject. |
-| `target` | `str \| None` | — | GameObject identifier by name, path, or instance ID for modify/delete/duplicate actions |
+| `target` | `str \| int \| None` | — | GameObject identifier by exact name, path, or instance ID (integer or numeric string). Modify can edit inactive objects without activating them. Names/paths use the current scene or prefab stage; IDs can address any loaded scene in the selected Unity instance. |
 | `search_method` | `Literal['by_id', 'by_name', 'by_path', 'by_tag', 'by_layer', 'by_component'] \| None` | — | How to resolve 'target'. If omitted, Unity infers: instance ID -> by_id, path (contains '/') -> by_path, otherwise by_name. |
 | `name` | `str \| None` | — | GameObject name for 'create' (initial name) and 'modify' (rename) actions. |
 | `tag` | `str \| None` | — | Tag name - used for both 'create' (initial tag) and 'modify' (change tag) |
@@ -83,6 +83,23 @@ Pair with [`manage_material`](./manage_material) to make it actually red.
 
 `search_method: by_name` matches the first GameObject whose name equals `Player`. Use `by_path` for `Parent/Child/Leaf` lookups or `by_id` for instance IDs.
 
+On the fixed stable branch, `modify` also resolves inactive objects without
+activating them. Pass an ID returned by `find_gameobjects` as an integer or
+numeric string; IDs address any loaded scene in the same Unity Editor instance.
+Names and paths remain scoped to the current scene or prefab stage. Specify
+`by_name` explicitly for an object whose name consists only of digits.
+
+Instance IDs are not persistent identifiers: rediscover them after reloading a
+scene or restarting Unity, and use the same selected Unity instance for both
+calls. The immutable `v10.3.0` tag predates this fix. Install the fixed branch:
+
+```text
+https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#muisim-stable-10-3-0-release
+```
+
+With **Server Source Override** empty, the server follows the same branch archive.
+Regenerate client configurations and restart the MCP server after switching.
+
 ### Parent one GameObject under another
 
 > Make `Sword` a child of `Player/RightHand`.
@@ -123,4 +140,3 @@ Pair with [`manage_material`](./manage_material) to make it actually red.
 
 See [Multi-Instance Routing](/guides/multi-instance) for the full routing model.
 <!-- examples:end -->
-

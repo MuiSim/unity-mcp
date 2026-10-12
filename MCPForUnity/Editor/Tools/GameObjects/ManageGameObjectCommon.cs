@@ -44,7 +44,7 @@ namespace MCPForUnity.Editor.Tools.GameObjects
 
             if (string.IsNullOrEmpty(searchMethod))
             {
-                if (targetToken?.Type == JTokenType.Integer)
+                if (targetToken?.Type == JTokenType.Integer || int.TryParse(searchTerm, out _))
                     searchMethod = "by_id";
                 else if (!string.IsNullOrEmpty(searchTerm) && searchTerm.Contains('/'))
                     searchMethod = "by_path";
@@ -68,9 +68,9 @@ namespace MCPForUnity.Editor.Tools.GameObjects
                 case "by_id":
                     if (int.TryParse(searchTerm, out int instanceId))
                     {
-                        var allObjects = GetAllSceneObjects(searchInactive);
-                        GameObject obj = allObjects.FirstOrDefault(go => go.GetInstanceIDCompat() == instanceId);
-                        if (obj != null)
+                        GameObject obj = GameObjectLookup.FindById(instanceId);
+                        if (obj != null && obj.scene.IsValid() && obj.scene.isLoaded
+                            && (searchInactive || obj.activeInHierarchy))
                             results.Add(obj);
                     }
                     break;

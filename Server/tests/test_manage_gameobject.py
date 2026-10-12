@@ -57,6 +57,20 @@ def mock_unity(monkeypatch):
 # ── component_properties forwarding (Fix 1 groundwork) ───────────────
 
 
+@pytest.mark.parametrize("target", [12345, -12345, "12345", "-12345", "InactiveChild"])
+@pytest.mark.parametrize("search_method", [None, "by_id", "by_name"])
+def test_modify_preserves_target_and_search_method(mock_unity, target, search_method):
+    result = asyncio.run(manage_gameobject(
+        SimpleNamespace(), action="modify", target=target,
+        search_method=search_method, position=[1, 2, 3],
+    ))
+    assert result["success"] is True
+    assert mock_unity["params"]["target"] == target
+    assert type(mock_unity["params"]["target"]) is type(target)
+    assert mock_unity["params"].get("searchMethod") == search_method
+    assert mock_unity["unity_instance"] == "unity-instance-1"
+
+
 class TestManageGameObjectComponentProperties:
     """component_properties should reach Unity for 'create', not just 'modify'."""
 

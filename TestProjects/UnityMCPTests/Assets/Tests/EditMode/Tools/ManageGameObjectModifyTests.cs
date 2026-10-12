@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEditorInternal;
 using Newtonsoft.Json.Linq;
 using MCPForUnity.Editor.Tools.GameObjects;
+using MCPForUnity.Editor.Tools;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
+using UnityEditor;
 
 namespace MCPForUnityTests.Editor.Tools
 {
@@ -47,6 +51,177 @@ namespace MCPForUnityTests.Editor.Tools
         }
 
         #region Target Resolution Tests
+
+        [TestCase("by_name", false)]
+        [TestCase("by_id", false)]
+        [TestCase("by_id", true)]
+        [TestCase(null, false)]
+        public void Modify_FindsInactiveDescendantReturnedBySearch(string method, bool numericId)
+        {
+            var parent = CreateTestObject("InactiveLookupParent");
+            var child = CreateTestObject("InactiveLookupChild");
+            child.transform.SetParent(parent.transform);
+            parent.SetActive(false);
+            Assert.IsTrue(child.activeSelf);
+            Assert.IsFalse(child.activeInHierarchy);
+            var found = JObject.FromObject(FindGameObjects.HandleCommand(new JObject
+            {
+                ["searchMethod"] = "by_name",
+                ["searchTerm"] = child.name,
+                ["includeInactive"] = true
+            }));
+            int id = found["data"]["instanceIDs"][0].Value<int>();
+            JToken target = method == "by_name" ? new JValue(child.name)
+                : numericId ? new JValue(id) : new JValue(id.ToString());
+            var parameters = new JObject
+            {
+                ["action"] = "modify",
+                ["target"] = target,
+                ["position"] = new JArray(1f, 2f, 3f)
+            };
+            if (method != null) parameters["searchMethod"] = method;
+            var result = JObject.FromObject(ManageGameObject.HandleCommand(parameters));
+            Assert.IsTrue(result.Value<bool>("success"), result.ToString());
+            Assert.AreEqual(new Vector3(1f, 2f, 3f), child.transform.position);
+            Assert.IsFalse(parent.activeSelf, "Editing must not activate the hierarchy.");
+        }
+
+        [TestCase(false)]
+        [TestCase(true)]
+        public void Modify_ById_FindsSearchResultInNonActiveLoadedScene(bool numericId)
+        {
+            var activeScene = SceneManager.GetActiveScene();
+            var additiveScene = EditorSceneManager.NewPreviewScene();
+            try
+            {
+                var go = CreateTestObject("AdditiveLookupTarget");
+                SceneManager.MoveGameObjectToScene(go, additiveScene);
+                SceneManager.SetActiveScene(activeScene);
+                var found = JObject.FromObject(FindGameObjects.HandleCommand(new JObject
+                {
+                    ["searchMethod"] = "by_id",
+                    ["searchTerm"] = go.GetInstanceID().ToString()
+                }));
+                Assert.IsTrue(found.Value<bool>("success"), found.ToString());
+                int id = found["data"]["instanceIDs"][0].Value<int>();
+                var result = JObject.FromObject(ManageGameObject.HandleCommand(new JObject
+                {
+                    ["action"] = "modify",
+                    ["searchMethod"] = "by_id",
+                    ["target"] = numericId ? new JValue(id) : new JValue(id.ToString()),
+                    ["position"] = new JArray(4f, 5f, 6f)
+                }));
+                Assert.IsTrue(result.Value<bool>("success"), result.ToString());
+                Assert.AreEqual(new Vector3(4f, 5f, 6f), go.transform.position);
+            }
+            finally
+            {
+                SceneManager.SetActiveScene(activeScene);
+                EditorSceneManager.ClosePreviewScene(additiveScene);
+            }
+        }
+
+        [Test]
+        public void Modify_InfersStringInstanceIdForActiveObject()
+        {
+            var go = testObjects[0];
+            var result = JObject.FromObject(ManageGameObject.HandleCommand(new JObject
+            {
+                ["action"] = "modify",
+                ["target"] = go.GetInstanceID().ToString(),
+                ["position"] = new JArray(7f, 8f, 9f)
+            }));
+            Assert.IsTrue(result.Value<bool>("success"), result.ToString());
+            Assert.AreEqual(new Vector3(7f, 8f, 9f), go.transform.position);
+        }
+
+        [Test]
+        public void Modify_ExplicitNameKeepsNumericObjectNames()
+        {
+            var go = CreateTestObject("123456789");
+            var result = JObject.FromObject(ManageGameObject.HandleCommand(new JObject
+            {
+                ["action"] = "modify",
+                ["target"] = go.name,
+                ["searchMethod"] = "by_name",
+                ["position"] = new JArray(7f, 8f, 9f)
+            }));
+            Assert.IsTrue(result.Value<bool>("success"), result.ToString());
+            Assert.AreEqual(new Vector3(7f, 8f, 9f), go.transform.position);
+        }
+
+        [Test]
+        public void Modify_InactiveRootByPath_DoesNotActivateIt()
+        {
+            var go = CreateTestObject("InactiveRootLookup");
+            go.SetActive(false);
+            var result = JObject.FromObject(ManageGameObject.HandleCommand(new JObject
+            {
+                ["action"] = "modify",
+                ["target"] = go.name,
+                ["searchMethod"] = "by_path",
+                ["position"] = new JArray(7f, 8f, 9f)
+            }));
+            Assert.IsTrue(result.Value<bool>("success"), result.ToString());
+            Assert.AreEqual(new Vector3(7f, 8f, 9f), go.transform.position);
+            Assert.IsFalse(go.activeSelf);
+        }
+
+        [Test]
+        public void Modify_ById_RejectsComponentId()
+        {
+            var go = testObjects[0];
+            var result = JObject.FromObject(ManageGameObject.HandleCommand(new JObject
+            {
+                ["action"] = "modify",
+                ["target"] = go.transform.GetInstanceID(),
+                ["searchMethod"] = "by_id",
+                ["position"] = new JArray(7f, 8f, 9f)
+            }));
+            Assert.IsFalse(result.Value<bool>("success"), result.ToString());
+            Assert.AreEqual(Vector3.zero, go.transform.position);
+        }
+
+        [Test]
+        public void Modify_ById_RejectsDestroyedObject()
+        {
+            var go = CreateTestObject("DestroyedLookupTarget");
+            int id = go.GetInstanceID();
+            Object.DestroyImmediate(go);
+            var result = JObject.FromObject(ManageGameObject.HandleCommand(new JObject
+            {
+                ["action"] = "modify",
+                ["target"] = id,
+                ["searchMethod"] = "by_id",
+                ["position"] = new JArray(1f, 2f, 3f)
+            }));
+            Assert.IsFalse(result.Value<bool>("success"), result.ToString());
+        }
+
+        [Test]
+        public void Modify_ById_RejectsPrefabAsset()
+        {
+            string path = "Assets/LookupRegression_" + System.Guid.NewGuid().ToString("N") + ".prefab";
+            try
+            {
+                var source = CreateTestObject("PrefabAssetLookupTarget");
+                var prefab = PrefabUtility.SaveAsPrefabAsset(source, path);
+                Assert.IsNotNull(prefab);
+                var result = JObject.FromObject(ManageGameObject.HandleCommand(new JObject
+                {
+                    ["action"] = "modify",
+                    ["target"] = prefab.GetInstanceID(),
+                    ["searchMethod"] = "by_id",
+                    ["position"] = new JArray(1f, 2f, 3f)
+                }));
+                Assert.IsFalse(result.Value<bool>("success"), result.ToString());
+                Assert.AreEqual(Vector3.zero, prefab.transform.position);
+            }
+            finally
+            {
+                AssetDatabase.DeleteAsset(path);
+            }
+        }
 
         [Test]
         public void Modify_ByName_FindsAndModifiesObject()
@@ -453,4 +628,3 @@ namespace MCPForUnityTests.Editor.Tools
         #endregion
     }
 }
-
