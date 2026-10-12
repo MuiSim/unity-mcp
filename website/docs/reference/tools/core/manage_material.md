@@ -23,7 +23,7 @@ Manages Unity materials (set properties, colors, shaders, etc). Read-only action
 | `property` | `str \| None` | — | Shader property name (e.g., _BaseColor, _MainTex) |
 | `shader` | `str \| None` | — | Shader name (default: Standard) |
 | `properties` | `dict[str, Any] \| str \| None` | — | Initial properties to set as {name: value} dict. |
-| `value` | `list \| float \| int \| str \| bool \| None` | — | Value to set (color array, float, texture path/instruction) |
+| `value` | `list[Any] \| float \| int \| str \| bool \| None` | — | Value to set (color array, float, texture path/instruction) |
 | `color` | `list[float] \| dict[str, float] \| str \| None` | — | Color as [r, g, b] or [r, g, b, a] array, {r, g, b, a} object, or JSON string. |
 | `target` | `str \| None` | — | Target GameObject (name, path, or find instruction) |
 | `search_method` | `Literal['by_id', 'by_name', 'by_path', 'by_tag', 'by_layer', 'by_component'] \| None` | — | Search method for target |
@@ -37,6 +37,19 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+### Inspect before changing
+
+**Prerequisite:** a connected Editor and a shader compatible with its render
+pipeline. Pass this argument object to `manage_material`, replacing the example path:
+
+```json
+{"action":"get_material_info","material_path":"Assets/Materials/Red.mat"}
+```
+
+**Verify:** reread shader properties and inspect the renderer after mutation.
+Shared material edits affect every renderer using the asset. Names/paths below
+are examples, not guaranteed existing project objects.
+
 ### Create a red material from scratch
 
 > Create `Assets/Materials/Red.mat` using the Standard shader, base color red.
@@ -98,4 +111,3 @@ For URP, use `"shader": "Universal Render Pipeline/Lit"` and property `_BaseColo
 
 `property_block` mode avoids creating a per-instance material clone, preserving batching.
 <!-- examples:end -->
-

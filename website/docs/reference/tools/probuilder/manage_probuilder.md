@@ -83,6 +83,28 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect and edit ProBuilder meshes.
+**Prerequisite:** activate `probuilder` with `manage_tools` and install
+`com.unity.probuilder`. Call `manage_probuilder`:
 
+```json
+{"action":"ping"}
+```
+
+Inspect an existing example ProBuilder object before changing topology:
+
+```json
+{"action":"get_mesh_info","target":"ExampleMesh","search_method":"by_name","properties":{"include":"faces"}}
+```
+
+Create a separate example cube:
+
+```json
+{"action":"create_shape","properties":{"shapeType":"Cube","name":"ExampleMesh","size":[1,1,1]}}
+```
+
+**Verify:** reread mesh counts, bounds and face indices. Replace the example name
+with your target. Use returned face/edge/vertex indices, never guessed indices.
+**Destructive:** deletion, merging, welding and repair change topology; back up
+meshes and validate them before/after editing.
+<!-- examples:end -->

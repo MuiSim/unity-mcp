@@ -31,6 +31,28 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect/control particle systems, VFX Graphs, lines and trails.
+**Prerequisite:** activate `vfx` with `manage_tools`; VFX Graph actions additionally
+require its package and a compatible pipeline. Call `manage_vfx`:
 
+```json
+{"action":"ping"}
+```
+
+Inspect an existing example ParticleSystem target before changing modules:
+
+```json
+{"action":"particle_get_info","target":"ExampleParticles","search_method":"by_name"}
+```
+
+Inspect available VFX Graph templates:
+
+```json
+{"action":"vfx_list_templates"}
+```
+
+**Verify:** inspect returned modules/templates and observe playback in the intended
+scene. Replace `ExampleParticles` with a verified object; use `component_index`
+for repeated particle components. **Caution:** clear actions discard live
+particles/line/trail data, and asset/module edits can change shared visual effects.
+<!-- examples:end -->

@@ -48,10 +48,31 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+Generate audio and import it as an AudioClip.
+**Prerequisite:** activate `asset_gen`, configure the fal key in the Editor's
+secure store, and discover a compatible model. Do not put API keys in arguments.
+Each JSON block is an argument-only `generate_audio` call. Discover models first:
+
 ```json
 {"action": "list_models", "provider": "fal"}
 ```
 
 CLI: `unity-mcp asset-gen list-models --kind audio --refresh`.
-<!-- examples:end -->
 
+**Paid/external effect:** `generate` sends your prompt to fal and may consume
+credits; cancellation does not guarantee a refund. It also writes imported assets.
+Replace `<model-id-from-list_models>` with a compatible returned model:
+
+```json
+{"action":"generate","provider":"fal","model":"<model-id-from-list_models>","prompt":"A short soft wooden click, no speech or music","duration":2.0,"name":"WoodClick","output_folder":"Assets/Generated/Audio"}
+```
+
+Poll using the actual returned ID (`<returned-job-id>` is a placeholder):
+
+```json
+{"action":"status","job_id":"<returned-job-id>"}
+```
+
+**Verify:** wait for terminal state, inspect `error` or `assetPath`, and audition
+the imported clip. Requested duration is model-dependent; it may be clamped.
+<!-- examples:end -->

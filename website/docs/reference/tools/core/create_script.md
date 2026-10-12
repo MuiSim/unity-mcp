@@ -30,6 +30,16 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Create a complete C# source file. **Prerequisite:** a connected Editor and a new
+destination under `Assets`; choose a class name matching the file name.
+Pass this object to `create_script`:
 
+```json
+{"path":"Assets/Scripts/ExampleMover.cs","contents":"using UnityEngine;\npublic class ExampleMover : MonoBehaviour\n{\n    void Update()\n    {\n        transform.Translate(Vector3.forward * Time.deltaTime);\n    }\n}\n"}
+```
+
+`ExampleMover` and its path are examples; do not overwrite an existing script
+without backing it up. **Verify:** use `manage_script` to read the new file,
+request compilation with `refresh_unity`, wait for Editor readiness and inspect
+console errors before adding the component to a GameObject.
+<!-- examples:end -->

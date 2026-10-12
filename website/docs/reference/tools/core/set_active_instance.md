@@ -27,6 +27,14 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Route subsequent commands to the intended connected Editor.
+**Prerequisite:** read the Unity-instances resource and copy a real identifier.
+Call `set_active_instance`; `<name@hash>` is a placeholder:
 
+```json
+{"instance":"<name@hash>"}
+```
+
+**Verify:** query `manage_scene` with `action:"get_active"` and confirm the project
+and scene before mutations. Prefer the full identifier over an ambiguous name.
+<!-- examples:end -->

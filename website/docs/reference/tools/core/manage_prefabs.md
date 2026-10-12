@@ -45,6 +45,26 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect prefab assets separately from scene instances.
+**Prerequisite:** an existing prefab at the example path. Call `manage_prefabs`:
 
+```json
+{"action":"get_info","prefab_path":"Assets/Prefabs/Example.prefab"}
+```
+
+Read its child structure before editing:
+
+```json
+{"action":"get_hierarchy","prefab_path":"Assets/Prefabs/Example.prefab"}
+```
+
+Create a new prefab from an existing, uniquely named scene object:
+
+```json
+{"action":"create_from_gameobject","target":"ExampleCube","prefab_path":"Assets/Prefabs/ExampleCube.prefab","allow_overwrite":false}
+```
+
+**Verify:** reread `get_info`; replace example paths/names with your own.
+**Caution:** prefab edits affect its instances. Child/component deletion and
+`allow_overwrite:true` can discard saved data.
+<!-- examples:end -->

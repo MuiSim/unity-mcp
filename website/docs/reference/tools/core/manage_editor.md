@@ -16,9 +16,6 @@ Controls and queries the Unity editor's state and settings. Read-only actions: t
 
 ## Parameters
 
-In this fork, `telemetry_status` reports whether local event collection is enabled.
-`telemetry_ping` creates an event locally; neither action enables remote reporting.
-
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | `action` | `Literal['telemetry_status', 'telemetry_ping', 'play', 'pause', 'stop', 'set_active_tool', 'add_tag', 'remove_tag', 'add_layer', 'remove_layer', 'deploy_package', 'restore_package', 'undo', 'redo']` | yes | Get and update the Unity Editor state. deploy_package copies the configured MCPForUnity source into the project's package location (triggers recompile). restore_package reverts the last deployment from backup. undo/redo perform editor undo/redo. For prefab editing (open/save/close prefab stage), use manage_prefabs. |
@@ -33,5 +30,27 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
+Control play state and inspect telemetry configuration.
+**Prerequisite:** a connected Editor. Call `manage_editor` with each object:
+
+```json
+{"action":"telemetry_status"}
+```
+
+In this fork, `telemetry_status` reports whether local event collection is enabled.
+`telemetry_ping` creates an event locally; neither action enables remote reporting.
+
+Start and stop a play test with separate calls:
+
+```json
+{"action":"play"}
+```
+
+```json
+{"action":"stop"}
+```
+
+**Verify:** read Editor-state and console resources after the test.
+**Caution:** Play Mode executes project scripts; most runtime changes are not
+saved. Tag/layer removal and package deployment/restoration change project setup.
 <!-- examples:end -->

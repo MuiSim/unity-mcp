@@ -54,6 +54,28 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect and manage Unity Package Manager dependencies.
+**Prerequisite:** a connected Editor; registry searches require network access.
+Call `manage_packages`:
 
+```json
+{"action":"list_packages"}
+```
+
+Search before installing:
+
+```json
+{"action":"search_packages","query":"com.unity.probuilder"}
+```
+
+After choosing a compatible version, an installation example is:
+
+```json
+{"action":"add_package","package":"com.unity.probuilder"}
+```
+
+**Verify:** poll `status` with the returned `job_id` when provided, then repeat
+`list_packages`. Wait for resolution/recompile before using new tools.
+**Caution:** add/remove/embed/resolve and registry changes modify dependency state
+and may cause domain reloads; removing required packages can break compilation.
+<!-- examples:end -->

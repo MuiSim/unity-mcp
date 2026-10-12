@@ -34,6 +34,19 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Read errors after imports, edits or play tests.
+**Prerequisite:** a connected Editor. Call `read_console`:
 
+```json
+{"action":"get","types":["error","warning"],"count":20,"include_stacktrace":true,"format":"detailed"}
+```
+
+Filter by an example script name:
+
+```json
+{"action":"get","filter_text":"ExampleMover","page_size":20,"cursor":0,"format":"plain"}
+```
+
+**Verify:** inspect messages/stack traces and returned pagination metadata.
+**Caution:** `clear` removes diagnostic history; collect errors first.
+<!-- examples:end -->

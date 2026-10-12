@@ -31,6 +31,15 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Find regex matches in a script without editing it.
+**Prerequisite:** an existing project file; replace the example URI.
+Pass this object to `find_in_file`:
 
+```json
+{"uri":"Assets/Scripts/ExampleMover.cs","pattern":"\\bUpdate\\s*\\(","max_results":20,"ignore_case":false}
+```
+
+**Verify:** inspect returned match positions/context before constructing edits.
+JSON requires doubled backslashes in regex strings. A capped result set is not
+proof there are no further matches; narrow the pattern if needed.
+<!-- examples:end -->

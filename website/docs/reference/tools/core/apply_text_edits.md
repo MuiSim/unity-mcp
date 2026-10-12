@@ -42,6 +42,18 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Apply precise line/column edits to an existing C# file.
+**Prerequisite:** read the script and call `get_sha` immediately before editing.
+Replace `<sha256-from-get_sha>` with that result; coordinates are **1-based** and
+the end position is exclusive. Pass this object to `apply_text_edits`:
 
+```json
+{"uri":"Assets/Scripts/ExampleMover.cs","precondition_sha256":"<sha256-from-get_sha>","strict":true,"edits":[{"startLine":1,"startCol":1,"endLine":1,"endCol":1,"newText":"// Movement example\n"}]}
+```
+
+This example inserts a comment before the first character without replacing code.
+Use a real project script path and current hash. **Verify:** reread the file,
+compare `get_sha`, request compilation with `refresh_unity`, and inspect console
+errors. If the precondition fails, reread/recompute coordinates rather than retrying
+with stale content. Prefer `script_apply_edits` for whole-method changes.
+<!-- examples:end -->

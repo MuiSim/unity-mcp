@@ -30,6 +30,14 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+**Purpose:** retrieve progress/results for an asynchronous test run.
+**Prerequisite:** activate `testing` and call `run_tests` first. Replace every
+`<job_id from run_tests>` placeholder below with the actual returned ID.
+Each JSON block is an argument-only `get_test_job` call.
+**Verify:** inspect terminal job status, failures and result summary, not just
+request success. A timeout can return a still-running job; wait again rather
+than submitting a duplicate run.
+
 ### Wait for a run to finish
 
 > Wait for the test job I just started and show the failures.
@@ -71,4 +79,3 @@ If Unity is in the background and the job has not moved for 3 s, both this call 
 
 `include_details` returns all tests; `include_failed_tests` returns only failed and skipped ones, which keeps the response small on large suites.
 <!-- examples:end -->
-

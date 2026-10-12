@@ -28,6 +28,25 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Discover and enable optional tool groups; only `core` is enabled by default.
+**Prerequisite:** a connected MCP client. Each block is a separate `manage_tools` call:
 
+```json
+{"action":"list_groups"}
+```
+
+Enable animation tools before using `manage_animation`:
+
+```json
+{"action":"activate","group":"animation"}
+```
+
+Disable them when finished:
+
+```json
+{"action":"deactivate","group":"animation"}
+```
+
+**Verify:** repeat `list_groups` and refresh a client that caches tool lists.
+`reset` restores core-only visibility; it does not undo scene/asset changes.
+<!-- examples:end -->

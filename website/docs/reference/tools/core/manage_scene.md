@@ -45,6 +45,19 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+### Inspect first
+
+**Prerequisite:** select the intended connected Editor. Pass this argument object
+to `manage_scene` before scene mutations:
+
+```json
+{"action":"get_active"}
+```
+
+**Verify:** inspect the active path/name and query hierarchy or loaded scenes.
+**Caution:** save current work before loading/closing scenes; saving can overwrite
+existing content. Paths and package names below are examples to replace.
+
 ### Load a scene from `Assets/Scenes/`
 
 > Open `Assets/Scenes/MainMenu.unity`.
@@ -122,4 +135,3 @@ Other templates: `2d_basic`, `default`, `empty`.
 
 Use `set_active_scene`, `close_scene`, and `move_to_scene` to compose multi-scene setups.
 <!-- examples:end -->
-

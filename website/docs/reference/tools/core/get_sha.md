@@ -27,6 +27,15 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Read a script's current SHA-256 without transferring its full contents.
+**Prerequisite:** an existing script in the connected project.
+Pass this object to `get_sha`, replacing the example path:
 
+```json
+{"uri":"Assets/Scripts/ExampleMover.cs"}
+```
+
+**Verify:** copy the returned hash into `apply_text_edits.precondition_sha256`.
+Read the script separately to establish exact edit coordinates. A hash detects
+drift; it does not validate C# semantics. Recompute after any concurrent edit.
+<!-- examples:end -->

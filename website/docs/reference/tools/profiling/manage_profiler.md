@@ -60,6 +60,31 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect profiler state and collect performance counters.
+**Prerequisite:** activate `profiling` with `manage_tools`; some counters/features
+depend on Editor version and installed packages. Call `manage_profiler`:
 
+```json
+{"action":"profiler_status"}
+```
+
+Read available counter data:
+
+```json
+{"action":"get_counters"}
+```
+
+For a bounded capture workflow, start and then stop with separate calls:
+
+```json
+{"action":"profiler_start"}
+```
+
+```json
+{"action":"profiler_stop"}
+```
+
+**Verify:** reread status and inspect counters while reproducing the workload,
+usually in Play Mode. Stop profiling/frame-debugger sessions when done. Capturing
+can add overhead and snapshot/log actions write potentially large files.
+<!-- examples:end -->

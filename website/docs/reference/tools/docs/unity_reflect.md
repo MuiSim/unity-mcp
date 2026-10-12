@@ -36,6 +36,13 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+**Purpose:** inspect types/members actually loaded in the connected Editor.
+**Prerequisite:** activate `docs` with `manage_tools` and wait for compilation.
+Each JSON block is an argument-only `unity_reflect` call.
+**Verify:** inspect full type names and overloads; resolve ambiguous matches
+before writing code. Reflection is read-only and confirms availability, not
+whether a particular API call is appropriate for your project's runtime.
+
 ### Check a class before writing code against it
 
 > Does `Rigidbody` have `linearVelocity` in this Unity version?
@@ -90,4 +97,3 @@ When several loaded types share the short name, the response has `ambiguous: tru
 
 `scope` defaults to `unity` (UnityEngine / UnityEditor / Unity.* assemblies). `project` covers only the `Assembly-CSharp*` assemblies, so types in your own `.asmdef` assemblies need `packages` (everything except `System*`, `mscorlib` and `netstandard`, so UnityEngine too) or `all`. Results are capped at 25 (`truncated: true` when more matched), so keep the query specific when the scope is wide.
 <!-- examples:end -->
-

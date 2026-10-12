@@ -32,6 +32,13 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+**Purpose:** whole-file script lifecycle. **Prerequisite:** select the correct
+Editor and replace example class names/paths with your project's files.
+Each fenced JSON object below is an argument-only `manage_script` call.
+Read existing source before changing it. **Destructive:** `delete` removes source
+and can break references/compilation; back up first. **Verify:** read the file,
+wait for compilation and inspect console diagnostics as described below.
+
 :::note Use the right tool for the job
 `manage_script` only handles whole-file lifecycle: **create**, **read**, **delete**. For editing existing scripts, reach for:
 - **[`script_apply_edits`](./script_apply_edits)** — structured edits (replace method, insert method, anchor-based insert/replace) with balanced-brace guards. Use this for most code changes.
@@ -86,4 +93,3 @@ Returns the full file. For just a SHA (to detect drift between reads and writes)
 
 Unity needs a domain reload to compile the new file (or notice the old one is gone). Poll the `mcpforunity://editor/state` resource until `data.compilation.is_compiling` flips back to `false`, then run [`read_console`](./read_console) to catch any compile errors before relying on the new types.
 <!-- examples:end -->
-

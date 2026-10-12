@@ -32,6 +32,28 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect and control Animator components, controllers and clips.
+**Prerequisite:** activate `animation` with `manage_tools`; the example target
+must have an Animator and assigned controller. Replace `Player` with a real target.
+Call `manage_animation` with each argument object:
 
+```json
+{"action":"animator_get_info","target":"Player","search_method":"by_name"}
+```
+
+Inspect a controller asset independently:
+
+```json
+{"action":"controller_get_info","controller_path":"Assets/Animations/Player.controller"}
+```
+
+After confirming a float parameter named `Speed` exists, set it:
+
+```json
+{"action":"animator_set_parameter","target":"Player","search_method":"by_name","properties":{"parameterName":"Speed","parameterType":"float","value":1.0}}
+```
+
+**Verify:** reread Animator/controller info. In Edit Mode, parameter setters
+change controller defaults rather than a running graph; shared-controller users
+can be affected. Play Mode is needed to observe runtime animation.
+<!-- examples:end -->

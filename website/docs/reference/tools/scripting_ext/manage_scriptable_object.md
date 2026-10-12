@@ -34,6 +34,23 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Create ScriptableObject assets or patch their serialized properties.
+**Prerequisite:** activate `scripting_ext` with `manage_tools`; compile the custom
+ScriptableObject type and inspect the existing asset/property paths first.
+Call `manage_scriptable_object` with a dry run before applying changes:
 
+```json
+{"action":"modify","target":{"path":"Assets/Data/ExampleSettings.asset"},"patches":[{"propertyPath":"m_Name","op":"set","value":"ExampleSettings"}],"dry_run":true}
+```
+
+The path is an example to replace. `m_Name` is the Unity serialized object name;
+use your actual serialized fields for application data. After validation succeeds:
+
+```json
+{"action":"modify","target":{"path":"Assets/Data/ExampleSettings.asset"},"patches":[{"propertyPath":"m_Name","op":"set","value":"ExampleSettings"}],"dry_run":false}
+```
+
+**Verify:** inspect per-patch results and reread the asset. **Caution:** writes
+change the shared asset; `overwrite:true` on creation can discard existing data.
+`dry_run` validates modifications only; it does not preview creation.
+<!-- examples:end -->

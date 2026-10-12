@@ -129,12 +129,15 @@ Regenerate client configurations and restart the MCP server after switching.
 
 > In the `Editor2` instance, duplicate `MainCamera`.
 
+First read `mcpforunity://instances` and call `set_active_instance` with the
+returned identifier for Editor2 (see its tool page for arguments). Then call
+`manage_gameobject`:
+
 ```json
 {
   "action": "duplicate",
   "target": "MainCamera",
-  "search_method": "by_name",
-  "unity_instance": "Editor2"
+  "search_method": "by_name"
 }
 ```
 

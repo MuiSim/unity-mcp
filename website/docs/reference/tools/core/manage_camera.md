@@ -75,6 +75,28 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect cameras, configure Cinemachine and capture views.
+**Prerequisite:** a connected Editor; Cinemachine-specific actions require the
+Cinemachine package. Pass each argument object to `manage_camera`:
 
+```json
+{"action":"ping"}
+```
+
+List cameras before selecting one:
+
+```json
+{"action":"list_cameras"}
+```
+
+Capture the Scene View without changing camera configuration:
+
+```json
+{"action":"screenshot","capture_source":"scene_view","include_image":true,"max_resolution":640}
+```
+
+**Verify:** inspect the returned camera list and screenshot. Capture can write an
+image file; Game View captures require an available rendered view. Resolve actual
+object names/IDs before target-specific actions; do not guess property layouts for
+different Cinemachine versions.
+<!-- examples:end -->

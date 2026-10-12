@@ -39,6 +39,26 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Search and inspect assets before mutations.
+**Prerequisite:** a connected Editor. Call `manage_asset`:
 
+```json
+{"action":"search","path":"Assets","filter_type":"Material","page_size":20,"page_number":1}
+```
+
+Replace the example path with a search result:
+
+```json
+{"action":"get_info","path":"Assets/Materials/Example.mat","generate_preview":true}
+```
+
+Create an example folder:
+
+```json
+{"action":"create_folder","path":"Assets/Examples"}
+```
+
+**Verify:** inspect returned paths/GUIDs; increment `page_number` for search pages.
+**Caution:** `delete` removes assets and may break references; back up first.
+Moves/renames can affect external references; `modify` changes the asset itself.
+<!-- examples:end -->

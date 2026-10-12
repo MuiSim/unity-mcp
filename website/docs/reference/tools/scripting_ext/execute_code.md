@@ -32,6 +32,22 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Run small C# snippets in the Editor without creating source assets.
+**Prerequisite:** activate `scripting_ext` with `manage_tools` and wait for
+compilation to finish. Inspect prior execution history first:
 
+```json
+{"action":"get_history","limit":5}
+```
+
+Pass this read-only snippet as arguments to `execute_code`:
+
+```json
+{"action":"execute","code":"return UnityEngine.Application.unityVersion;","safety_checks":true,"compiler":"auto"}
+```
+
+**Verify:** inspect the execution result and console diagnostics.
+**Caution:** arbitrary snippets can modify/delete project data or perform external
+operations; safety checks are not a sandbox. Keep them enabled, review code first,
+and do not replay mutating history entries without understanding their effects.
+<!-- examples:end -->

@@ -30,6 +30,19 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+### Inspect before creating
+
+**Prerequisite:** a connected Editor. Pass this argument object to `batch_execute`:
+
+```json
+{"commands":[{"tool":"manage_scene","params":{"action":"get_active"}},{"tool":"read_console","params":{"action":"get","types":["error"],"count":10,"includeStacktrace":true}}],"parallel":true,"fail_fast":false}
+```
+
+Nested `params` bypass Python wrappers and go directly to C# handlers. Use Unity
+payload keys (for example `primitiveType`, `materialPath`, `searchMethod`).
+**Verify:** inspect every result. Batches are not transactions; earlier mutations
+are not rolled back. Use sequential execution for dependent mutations.
+
 ### Why batch?
 
 A loop of 10 individual `manage_gameobject` calls pays 10 round trips to Unity. `batch_execute` pays one. For multi-object setup, batches are routinely **10–100× faster**. Use them whenever the next call doesn't need the previous call's return value.
@@ -43,41 +56,43 @@ A loop of 10 individual `manage_gameobject` calls pays 10 round trips to Unity. 
   "commands": [
     { "tool": "manage_gameobject", "params": {
         "action": "create", "name": "RedCube",
-        "primitive_type": "Cube", "position": [-1, 0, 0]
+        "primitiveType": "Cube", "position": [-1, 0, 0]
     }},
     { "tool": "manage_gameobject", "params": {
         "action": "create", "name": "BlueCube",
-        "primitive_type": "Cube", "position": [0, 0, 0]
+        "primitiveType": "Cube", "position": [0, 0, 0]
     }},
     { "tool": "manage_gameobject", "params": {
         "action": "create", "name": "YellowCube",
-        "primitive_type": "Cube", "position": [1, 0, 0]
+        "primitiveType": "Cube", "position": [1, 0, 0]
     }},
     { "tool": "manage_material", "params": {
-        "action": "create", "material_path": "Materials/Red.mat",
+        "action": "create", "materialPath": "Assets/Materials/Red.mat",
         "shader": "Standard", "properties": { "_Color": [1, 0, 0, 1] }
     }},
     { "tool": "manage_material", "params": {
-        "action": "create", "material_path": "Materials/Blue.mat",
+        "action": "create", "materialPath": "Assets/Materials/Blue.mat",
         "shader": "Standard", "properties": { "_Color": [0, 0, 1, 1] }
     }},
     { "tool": "manage_material", "params": {
-        "action": "create", "material_path": "Materials/Yellow.mat",
+        "action": "create", "materialPath": "Assets/Materials/Yellow.mat",
         "shader": "Standard", "properties": { "_Color": [1, 1, 0, 1] }
     }},
     { "tool": "manage_material", "params": {
         "action": "assign_material_to_renderer", "target": "RedCube",
-        "search_method": "by_name", "material_path": "Materials/Red.mat"
+        "searchMethod": "by_name", "materialPath": "Assets/Materials/Red.mat"
     }},
     { "tool": "manage_material", "params": {
         "action": "assign_material_to_renderer", "target": "BlueCube",
-        "search_method": "by_name", "material_path": "Materials/Blue.mat"
+        "searchMethod": "by_name", "materialPath": "Assets/Materials/Blue.mat"
     }},
     { "tool": "manage_material", "params": {
         "action": "assign_material_to_renderer", "target": "YellowCube",
-        "search_method": "by_name", "material_path": "Materials/Yellow.mat"
+        "searchMethod": "by_name", "materialPath": "Assets/Materials/Yellow.mat"
     }}
-  ]
+  ],
+  "parallel": false,
+  "fail_fast": true
 }
 ```
 
@@ -97,4 +112,3 @@ Pass `parallel: true` to let the server run **read-only** commands concurrently.
 
 Batch size is configurable in the Unity MCP Tools window (default 25, hard max 100). Past the limit, split into multiple batches — round-trip cost is still amortized.
 <!-- examples:end -->
-

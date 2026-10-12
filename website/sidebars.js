@@ -23,6 +23,7 @@ const sidebars = {
       label: 'Guides',
       collapsed: false,
       items: [
+        'guides/agent-tool-manual',
         'guides/uv-setup',
         'guides/claude-code-cli',
         'guides/client-configurators',

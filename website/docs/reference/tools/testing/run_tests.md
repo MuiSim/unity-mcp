@@ -35,6 +35,14 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+**Purpose:** start Unity Test Runner jobs.
+**Prerequisite:** activate `testing`, install/configure Unity Test Framework and
+ensure project scripts compile. Each JSON block is an argument-only `run_tests`
+call. Sample namespaces/assemblies below must be replaced with real test names.
+**Verify:** poll the returned job ID using `get_test_job`; request success means
+submission succeeded, not that the tests passed. **Caution:** tests execute project
+code, may mutate data and can enter Play Mode/domain reload.
+
 ### Run every EditMode test
 
 > Run all EditMode tests and tell me what failed.
@@ -101,4 +109,3 @@ PlayMode runs start with a domain reload, so the default 15 s `init_timeout` is 
 
 Only clears the orphaned job; it does not start a run. The response says `Stuck job cleared.` or `No running job to clear.` Start the run again afterwards. `clear_stuck` does not check whether the job is still alive: it marks any job in the `running` state as failed. If a run is really in progress, `run_tests` answers `tests_running` with `retry_after_ms`; wait for it instead, because clearing it does not stop the tests already running in Unity.
 <!-- examples:end -->
-

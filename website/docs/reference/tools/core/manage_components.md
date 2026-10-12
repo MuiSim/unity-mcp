@@ -34,6 +34,21 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Add/configure components on existing objects.
+**Prerequisite:** inspect the target with `find_gameobjects` and component resources.
+`ExampleCube` is an example name. Call `manage_components`:
 
+```json
+{"action":"add","target":"ExampleCube","search_method":"by_name","component_type":"Rigidbody"}
+```
+
+After confirming it exists, disable gravity:
+
+```json
+{"action":"set_property","target":"ExampleCube","search_method":"by_name","component_type":"Rigidbody","property":"useGravity","value":false}
+```
+
+**Verify:** reread the component resource. Prefer verified IDs with `by_id` for
+duplicate names, and `component_index` for repeated components.
+**Caution:** `remove` destroys the selected component's configuration.
+<!-- examples:end -->

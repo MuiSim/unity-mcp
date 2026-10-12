@@ -42,6 +42,13 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+**Purpose:** fetch Unity API/Manual/package documentation before coding.
+**Prerequisite:** activate `docs` with `manage_tools` and allow network access.
+Each JSON block is an argument-only `unity_docs` call. Pin the version to the
+open Editor when API compatibility matters. **Verify:** inspect returned
+signatures/examples and use `unity_reflect` to confirm the API is loaded locally.
+Documentation requests are read-only but contact Unity's documentation servers.
+
 ### Look up several APIs in one call
 
 > Before writing the controller, pull the docs for raycasts, NavMeshAgent and script execution order.
@@ -114,4 +121,3 @@ All three parameters are required. `pkg_version` is `major.minor` of the package
 
 Pair it with [`unity_reflect`](./unity_reflect.md): reflect confirms the API exists in the open editor, docs explain how to use it.
 <!-- examples:end -->
-

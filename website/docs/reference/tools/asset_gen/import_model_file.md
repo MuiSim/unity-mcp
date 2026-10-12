@@ -37,6 +37,19 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Import an existing local model without a generation API.
+**Prerequisite:** activate `asset_gen`; the source must exist on the **Unity
+Editor's machine**, not only on the MCP client's machine. Supported inputs are
+`.fbx`, `.obj`, `.glb`, `.gltf` and `.zip`; glTF support requires a compatible importer.
+Replace the example source path with your own and call `import_model_file`:
 
+```json
+{"source_path":"C:\\Models\\Example.fbx","name":"ExampleModel","output_folder":"Assets/Imported","target_size":1.0,"animation_type":"generic"}
+```
+
+`animation_type` is relevant to FBX rigs/clips. `target_size` normalizes the largest
+dimension in meters. **Write effect:** copies/imports files under `Assets`; no
+paid provider call or API key is required. **Verify:** inspect returned
+`asset_path`/`asset_guid` and imported meshes/materials. The tool does **not** place
+the model in the scene; instantiate the returned asset separately.
+<!-- examples:end -->

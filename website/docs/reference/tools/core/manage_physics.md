@@ -89,6 +89,28 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect physics configuration and query colliders.
+**Prerequisite:** a connected Editor with the intended scene loaded.
+Call `manage_physics` with each argument object:
 
+```json
+{"action":"get_settings","dimension":"3d"}
+```
+
+Cast a ray downward from world-space y=10:
+
+```json
+{"action":"raycast","dimension":"3d","origin":[0,10,0],"direction":[0,-1,0],"max_distance":20,"query_trigger_interaction":"Ignore"}
+```
+
+Read layer collision configuration:
+
+```json
+{"action":"get_collision_matrix","dimension":"3d"}
+```
+
+**Verify:** inspect hit objects/distances and confirm they match visible colliders.
+No hit can mean there is no collider in the ray, not that the query failed.
+**Caution:** settings/collision-matrix edits affect the project; force/simulation
+actions change physics state. Inspect before removing joints or replacing materials.
+<!-- examples:end -->

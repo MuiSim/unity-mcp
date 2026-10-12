@@ -51,10 +51,32 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+Generate images and import textures/sprites.
+**Prerequisite:** activate `asset_gen`; configure the provider key in the Editor's
+secure store, never in tool arguments. Discover model capabilities first.
+Each block is an argument-only `generate_image` call:
+
 ```json
 {"action": "list_models", "provider": "openrouter", "search": "flux", "limit": 20}
 ```
 
 CLI: `unity-mcp asset-gen list-models --kind image --provider openrouter --refresh`.
-<!-- examples:end -->
 
+**Paid/external effect:** generation sends your prompt/source image to the provider,
+may consume credits and writes imported assets. Cancellation is not a guaranteed
+refund. Replace the placeholder with a returned text-image model:
+
+```json
+{"action":"generate","provider":"openrouter","mode":"text","model":"<model-id-from-list_models>","prompt":"A simple blue potion bottle icon on a plain white background","name":"PotionIcon","output_folder":"Assets/Generated/Images"}
+```
+
+Poll the returned job ID:
+
+```json
+{"action":"status","job_id":"<returned-job-id>"}
+```
+
+**Verify:** wait for terminal state, inspect `assetPath`/`error` and preview the
+texture. `transparent:true` sets an import flag; it does not generate transparency.
+`remove_background` is unsupported in this stable version and returns an error.
+<!-- examples:end -->

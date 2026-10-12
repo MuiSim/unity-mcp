@@ -27,6 +27,16 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Remove a C# script asset. **Prerequisite:** read the target and find references
+before deleting; back up or commit it first. The path below is an example to replace.
+Pass this object to `delete_script` only after confirming the target:
 
+```json
+{"uri":"Assets/Scripts/UnusedExample.cs"}
+```
+
+**Destructive:** deletion removes source and can leave missing components or break
+compilation. Do not assume it can be undone through Editor Undo.
+**Verify:** confirm the asset no longer exists, request compilation with
+`refresh_unity`, and inspect console errors/missing script references.
+<!-- examples:end -->

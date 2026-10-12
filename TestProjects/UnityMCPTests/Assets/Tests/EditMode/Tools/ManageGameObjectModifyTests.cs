@@ -223,6 +223,38 @@ namespace MCPForUnityTests.Editor.Tools
             }
         }
 
+        [TestCase("by_name")]
+        [TestCase("by_id")]
+        public void Modify_PreservesPrefabStageTargetLookup(string method)
+        {
+            string path = "Assets/LookupStageRegression_" + System.Guid.NewGuid().ToString("N") + ".prefab";
+            try
+            {
+                var source = CreateTestObject("LookupStageRoot");
+                var child = CreateTestObject("LookupStageChild");
+                child.transform.SetParent(source.transform);
+                PrefabUtility.SaveAsPrefabAsset(source, path);
+                var stage = PrefabStageUtility.OpenPrefab(path);
+                Assert.IsNotNull(stage);
+                var stageChild = stage.prefabContentsRoot.transform.Find("LookupStageChild").gameObject;
+                var result = JObject.FromObject(ManageGameObject.HandleCommand(new JObject
+                {
+                    ["action"] = "modify",
+                    ["target"] = method == "by_id"
+                        ? stageChild.GetInstanceID().ToString() : stageChild.name,
+                    ["searchMethod"] = method,
+                    ["position"] = new JArray(1f, 2f, 3f)
+                }));
+                Assert.IsTrue(result.Value<bool>("success"), result.ToString());
+                Assert.AreEqual(new Vector3(1f, 2f, 3f), stageChild.transform.position);
+            }
+            finally
+            {
+                StageUtility.GoToMainStage();
+                AssetDatabase.DeleteAsset(path);
+            }
+        }
+
         [Test]
         public void Modify_ByName_FindsAndModifiesObject()
         {

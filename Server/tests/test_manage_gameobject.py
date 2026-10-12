@@ -17,10 +17,12 @@ for that half of the coverage.
 
 import asyncio
 import inspect
+from typing import get_type_hints
 from types import SimpleNamespace
 from unittest.mock import AsyncMock
 
 import pytest
+from pydantic import TypeAdapter
 
 from services.tools.manage_gameobject import manage_gameobject
 from services.registry import get_registered_tools
@@ -69,6 +71,14 @@ def test_modify_preserves_target_and_search_method(mock_unity, target, search_me
     assert type(mock_unity["params"]["target"]) is type(target)
     assert mock_unity["params"].get("searchMethod") == search_method
     assert mock_unity["unity_instance"] == "unity-instance-1"
+
+
+@pytest.mark.parametrize("target", [12345, -12345, "12345", "-12345"])
+def test_target_schema_accepts_integer_and_string_instance_ids(target):
+    annotation = get_type_hints(manage_gameobject, include_extras=True)["target"]
+    validated = TypeAdapter(annotation).validate_python(target, strict=True)
+    assert validated == target
+    assert type(validated) is type(target)
 
 
 class TestManageGameObjectComponentProperties:

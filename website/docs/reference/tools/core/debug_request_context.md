@@ -25,6 +25,13 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect request/session routing when commands reach the wrong project.
+**Prerequisite:** an MCP client; no arguments are required. Call `debug_request_context`:
 
+```json
+{}
+```
+
+**Verify:** inspect the returned request/session/instance context. Check for private
+project/session information before sharing diagnostic output.
+<!-- examples:end -->

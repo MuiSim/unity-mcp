@@ -51,10 +51,38 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+Generate 3D models and import them into the project.
+**Prerequisite:** activate `asset_gen`; configure the selected provider's key in
+the Editor secure store. Discover model/input-format support before submission.
+Each block is an argument-only `generate_model` call:
+
 ```json
 {"action": "list_models", "provider": "fal", "mode": "image"}
 ```
 
 CLI: `unity-mcp asset-gen list-models --kind model --provider fal --refresh` (GLB output).
-<!-- examples:end -->
 
+For a text workflow, first discover compatible models:
+
+```json
+{"action":"list_models","provider":"fal","mode":"text","limit":20}
+```
+
+**Paid/external effect:** generation sends prompts/source images to an external
+provider, consumes credits and writes assets. Cancellation may not refund charges.
+Use a returned text-compatible model ID, replacing the placeholder:
+
+```json
+{"action":"generate","provider":"fal","mode":"text","model":"<text-model-id-from-list_models>","prompt":"A low-poly wooden crate","format":"glb","target_size":1.0,"name":"GeneratedCrate","output_folder":"Assets/Generated/Models"}
+```
+
+Poll the actual returned ID:
+
+```json
+{"action":"status","job_id":"<returned-job-id>"}
+```
+
+**Verify:** inspect terminal state, `assetPath`/`error` and imported mesh/materials.
+fal output is GLB; other providers have different format/tier capabilities.
+Never send secrets or unapproved source images in prompts.
+<!-- examples:end -->

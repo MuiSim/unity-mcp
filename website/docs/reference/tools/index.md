@@ -12,6 +12,8 @@ description: Auto-generated catalog of every MCP for Unity tool, grouped by doma
 
 Every tool MCP for Unity exposes, generated directly from the Python `@mcp_for_unity_tool` registry under `Server/src/services/tools/`.
 
+Start with the [agent tool manual](../../guides/agent-tool-manual.md) for instance selection, argument conventions, and safe workflows. Each tool page below includes schema-derived parameters and practical examples.
+
 ## `animation` &nbsp; (1 tool)
 Animator control & AnimationClip creation
 - **[`manage_animation`](./animation/manage_animation.md)** — Manage Unity animation: Animator control and AnimationClip creation.

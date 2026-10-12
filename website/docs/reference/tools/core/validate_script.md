@@ -29,6 +29,16 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Validate a C# script and request diagnostics without rewriting it.
+**Prerequisite:** an existing script in the connected project.
+Call `validate_script`, replacing the example URI:
 
+```json
+{"uri":"Assets/Scripts/ExampleMover.cs","level":"standard","include_diagnostics":true}
+```
+
+Use `level:"basic"` for a cheaper check. **Verify:** inspect success and individual
+diagnostics, then request compilation/read console errors to catch project-wide
+issues. Validation is not a substitute for compiling against actual project
+dependencies and Unity-version APIs.
+<!-- examples:end -->

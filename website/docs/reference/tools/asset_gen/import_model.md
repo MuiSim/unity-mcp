@@ -45,6 +45,35 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Search Sketchfab, inspect a model's license and import it.
+**Prerequisite:** activate `asset_gen`, configure the Sketchfab token in the
+Editor's secure store, and ensure network access. No token belongs in arguments.
+Each object is a separate `import_model` call:
 
+```json
+{"action":"list_providers"}
+```
+
+Search downloadable models:
+
+```json
+{"action":"search","query":"wooden crate","downloadable":true,"count":5}
+```
+
+Preview a UID copied from search (`<model-uid>` is a placeholder):
+
+```json
+{"action":"preview","uid":"<model-uid>"}
+```
+
+Only after checking the license and attribution/download rights:
+
+```json
+{"action":"import","uid":"<model-uid>","target_size":1.0,"name":"ImportedCrate","output_folder":"Assets/Imported"}
+```
+
+**External/write effect:** search/preview/download contact Sketchfab; importing
+writes assets. This is not a paid AI-generation call, but access and license terms
+still apply. **Verify:** poll `status` using the returned `job_id`, inspect
+`assetPath`/`error` and mesh/materials. Keep required attribution with your project.
+<!-- examples:end -->

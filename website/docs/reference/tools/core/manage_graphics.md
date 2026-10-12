@@ -96,6 +96,31 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect render-pipeline setup, lighting and rendering statistics.
+**Prerequisite:** a connected Editor; volume/renderer-feature actions depend on
+the installed render pipeline. Call `manage_graphics` with each object:
 
+```json
+{"action":"pipeline_get_info"}
+```
+
+Read rendering statistics and skybox setup:
+
+```json
+{"action":"stats_get"}
+```
+
+```json
+{"action":"skybox_get"}
+```
+
+Check lighting bake status before starting another bake:
+
+```json
+{"action":"bake_status"}
+```
+
+**Verify:** inspect pipeline capabilities and returned counters/settings.
+**Caution:** baking is expensive; `bake_clear` discards baked data, and pipeline,
+quality, skybox or shared profile edits can change the entire project's rendering.
+<!-- examples:end -->

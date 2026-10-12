@@ -30,6 +30,17 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Read or manage ShaderLab source files.
+**Prerequisite:** activate `vfx` with `manage_tools`; use an existing shader name
+and its containing folder. Call `manage_shader`:
 
+```json
+{"action":"read","name":"Example","path":"Assets/Shaders"}
+```
+
+This addresses the example `Assets/Shaders/Example.shader`; replace it with your
+project's file. **Verify:** inspect returned source and shader console errors
+after any update. Choose shader code compatible with your render pipeline.
+**Destructive:** `update` replaces source and `delete` removes the shader, which
+can break dependent materials; keep a backup before either action.
+<!-- examples:end -->

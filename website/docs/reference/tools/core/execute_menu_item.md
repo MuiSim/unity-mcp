@@ -27,6 +27,17 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Invoke an existing Unity Editor menu command.
+**Prerequisite:** a connected Editor and the exact menu path from its menu-items
+resource. Pass this object to `execute_menu_item` to open the Console:
 
+```json
+{"menu_path":"Window/General/Console"}
+```
+
+**Verify:** inspect the response and confirm the Console window opens.
+Menu paths vary by Editor version/packages and some commands require selection.
+**Caution:** other menu commands can delete assets, build files or open blocking
+dialogs; inspect the command before invoking it. This tool takes `menu_path`,
+not an invented generic `action`.
+<!-- examples:end -->

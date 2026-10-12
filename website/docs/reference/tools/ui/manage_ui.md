@@ -75,6 +75,28 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect and manage UI Toolkit assets/documents.
+**Prerequisite:** activate `ui` with `manage_tools`; runtime visual-tree actions
+need a GameObject with a configured UIDocument. Call `manage_ui`:
 
+```json
+{"action":"ping"}
+```
+
+List existing UI assets before editing:
+
+```json
+{"action":"list","page_size":20,"page_number":1}
+```
+
+Read an example UXML asset, replacing the path with a listed asset:
+
+```json
+{"action":"read","path":"Assets/UI/Example.uxml"}
+```
+
+**Verify:** inspect returned asset contents or `get_visual_tree` for an actual
+UIDocument target. Live element changes are not equivalent to editing saved UXML.
+**Destructive:** `delete` removes assets and `detach_ui_document` removes a
+component; back up first. This tool is for UI Toolkit, not legacy uGUI.
+<!-- examples:end -->

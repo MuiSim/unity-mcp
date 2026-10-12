@@ -77,6 +77,12 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
+**Purpose:** structured script edits. **Prerequisite:** read the target first;
+the sample methods, fields and helper calls below must exist in your file or be
+adapted before use. Each block is an argument-only `script_apply_edits` call.
+**Caution:** replacement/deletion modifies source; keep a recoverable copy.
+**Verify:** reread edited methods and inspect compiler diagnostics after reload.
+
 :::tip
 Prefer this over [`apply_text_edits`](./apply_text_edits) for method-level changes. Structured ops keep braces balanced and survive incidental whitespace drift. Use `apply_text_edits` only when you need surgical line/column patching.
 :::
@@ -183,4 +189,3 @@ Anchor ops are great for adding instrumentation near stable comment markers with
 
 Poll the `mcpforunity://editor/state` resource until `data.compilation.is_compiling` flips back to `false`, then run [`read_console`](./read_console) to catch any compile errors before relying on the new types.
 <!-- examples:end -->
-

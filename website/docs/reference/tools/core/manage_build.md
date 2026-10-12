@@ -42,6 +42,33 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Inspect build configuration before a player build.
+**Prerequisite:** a compiling project, saved scenes and installed platform modules.
+Call `manage_build` with each object:
 
+```json
+{"action":"scenes"}
+```
+
+Read, without changing, the current product name:
+
+```json
+{"action":"settings","property":"product_name"}
+```
+
+Build an example saved scene to a new output location:
+
+```json
+{"action":"build","target":"windows64","output_path":"Builds/Example/Example.exe","scenes":"[\"Assets/Scenes/Example.unity\"]","development":"true"}
+```
+
+`scenes` and `development` are **strings** in this MCP schema. Replace example paths.
+Poll the returned job ID (`<returned-job-id>` is a placeholder):
+
+```json
+{"action":"status","job_id":"<returned-job-id>"}
+```
+
+**Verify:** inspect the build report and output. **Caution:** builds write files;
+platform/backend changes can persist and cause lengthy reimports.
+<!-- examples:end -->

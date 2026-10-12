@@ -324,7 +324,7 @@ def render_tool_page(tool: dict[str, Any], existing_examples: str) -> str:
         f"## Returns\n\n"
         f"A `dict` containing the Unity response. The exact shape depends on the action.\n\n"
         f"## Examples\n\n"
-        f"{existing_examples}\n"
+        f"{existing_examples}"
     )
 
 
@@ -373,6 +373,9 @@ def render_catalog_index(tools_by_group: dict[str, list[dict[str, Any]]],
         GENERATED_BANNER + "\n",
         "Every tool MCP for Unity exposes, generated directly from the Python "
         "`@mcp_for_unity_tool` registry under `Server/src/services/tools/`.\n",
+        "Start with the [agent tool manual](../../guides/agent-tool-manual.md) "
+        "for instance selection, argument conventions, and safe workflows. "
+        "Each tool page below includes schema-derived parameters and practical examples.\n",
     ]
 
     for group in sorted(tools_by_group):

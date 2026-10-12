@@ -30,6 +30,15 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Discover supported script-edit operations and validation capabilities.
+**Prerequisite:** a connected MCP client/Editor. This tool has no arguments;
+call `manage_script_capabilities` with:
 
+```json
+{}
+```
+
+**Verify:** inspect the returned operations and options before constructing
+`script_apply_edits` or `apply_text_edits` requests. Capabilities are version-specific;
+do not assume an operation from another release is available.
+<!-- examples:end -->

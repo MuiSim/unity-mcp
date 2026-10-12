@@ -31,6 +31,20 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Find objects and obtain instance IDs before mutations.
+**Prerequisite:** the intended scene is loaded. Call `find_gameobjects`;
+`Player` is an example name:
 
+```json
+{"search_term":"Player","search_method":"by_name","include_inactive":true,"page_size":20,"cursor":0}
+```
+
+Find cameras by component:
+
+```json
+{"search_term":"Camera","search_method":"by_component","page_size":20,"cursor":0}
+```
+
+**Verify:** read returned IDs through the GameObject resource before mutating.
+Continue with `next_cursor`; names need not be unique.
+<!-- examples:end -->

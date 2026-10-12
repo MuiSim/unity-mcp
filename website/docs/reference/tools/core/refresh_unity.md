@@ -30,6 +30,19 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Refresh imports and request compilation after external edits.
+**Prerequisite:** save files in the connected project. Call `refresh_unity`:
 
+```json
+{"mode":"if_dirty","scope":"all","compile":"request","wait_for_ready":true}
+```
+
+Asset-only refresh without requesting compilation:
+
+```json
+{"mode":"if_dirty","scope":"assets","compile":"none","wait_for_ready":true}
+```
+
+**Verify:** inspect readiness and read console errors. Refresh completion does
+not prove compilation succeeded. Wait through domain reload before dependent calls.
+<!-- examples:end -->

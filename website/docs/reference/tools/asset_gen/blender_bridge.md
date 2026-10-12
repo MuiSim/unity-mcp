@@ -59,6 +59,31 @@ A `dict` containing the Unity response. The exact shape depends on the action.
 ## Examples
 
 <!-- examples:start -->
-*No examples yet. Add usage examples here — they will be preserved across regenerations.*
-<!-- examples:end -->
+Hand off a model from a running Blender to Unity through the BlenderMCP addon.
+**Prerequisite:** activate `asset_gen` with `manage_tools`; run Blender with the
+addon socket enabled, and configure its host/port in the Unity Blender Bridge tab.
+No paid generation API is used by the export/import itself.
+Call `blender_bridge` with each argument object:
 
+```json
+{"action":"status"}
+```
+
+Inspect Blender object names before choosing an export:
+
+```json
+{"action":"scene_info"}
+```
+
+Export/import one example Blender object and place it in Unity:
+
+```json
+{"action":"import_model","object_names":["ExampleModel"],"format":"glb","name":"ExampleModel","target_size":1.0,"position":[0,0,0],"place_in_scene":true,"output_folder":"Assets/Imported","auto_animate":false,"ensure_bloom":false}
+```
+
+Replace `ExampleModel` with a real Blender name. **Verify:** inspect returned
+`asset_path`/`game_object` and Unity hierarchy; use `compare_screenshot` to compare
+views. **Caution:** import writes assets and may modify the scene. Omitting both
+`object_names` and `selection_only` exports the entire Blender scene.
+`run_python` executes arbitrary Blender code; `sync_addon` overwrites addon files.
+<!-- examples:end -->
