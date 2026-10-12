@@ -77,7 +77,7 @@ Example Git package lock entry:
 
 ```json
 "com.coplaydev.unity-mcp": {
-  "version": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#beta",
+  "version": "https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.0",
   "source": "git",
   "hash": "<resolved-git-commit>"
 }

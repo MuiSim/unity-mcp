@@ -9,14 +9,14 @@ Thanks for wanting to help! MCP for Unity is community-maintained and PRs of any
    ```bash
    git checkout -b feat/your-idea upstream/beta
    ```
-3. Install the dev environment (see [Dev Setup](https://coplaydev.github.io/unity-mcp/contributing/dev-setup)).
+3. Install the dev environment (see [Dev Setup](https://muisim.github.io/unity-mcp/contributing/dev-setup)).
 4. Make your change with tests.
 5. Open a PR against `beta`. PRs against `main` will be redirected.
 
 ## What We Look For
 
 - **Tests for new behavior.** Python tests live in `Server/tests/`; Unity EditMode tests live in `TestProjects/UnityMCPTests/Assets/Tests/`.
-- **Domain symmetry.** New tools live in *both* `Server/src/services/tools/manage_<domain>.py` (Python MCP tool) and `MCPForUnity/Editor/Tools/Manage<Domain>.cs` (C# implementation). See [Adding a New Tool](https://coplaydev.github.io/unity-mcp/contributing/dev-setup).
+- **Domain symmetry.** New tools live in *both* `Server/src/services/tools/manage_<domain>.py` (Python MCP tool) and `MCPForUnity/Editor/Tools/Manage<Domain>.cs` (C# implementation). See [Adding a New Tool](https://muisim.github.io/unity-mcp/contributing/dev-setup).
 - **Minimal abstraction.** Three similar lines of code is better than a helper that's only used once.
 - **Documentation as code.** Tool reference pages under `website/docs/reference/` are auto-generated — never hand-edit them outside the `<!-- examples:start --><!-- examples:end -->` blocks.
 

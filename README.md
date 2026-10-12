@@ -7,14 +7,24 @@
 
 <div align="center">
 
-[English](README.md) <img src="docs/images/connector.svg" alt="↔" height="14"> [简体中文](docs/i18n/README-zh.md) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; [Discord](https://discord.gg/y4p8KfzrN4) <img src="docs/images/connector.svg" alt="↔" height="14"> [Wiki](https://coplaydev.github.io/unity-mcp/)
+[English](README.md) <img src="docs/images/connector.svg" alt="↔" height="14"> [简体中文](docs/i18n/README-zh.md) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; [Discord](https://discord.gg/y4p8KfzrN4) <img src="docs/images/connector.svg" alt="↔" height="14"> [Wiki](https://muisim.github.io/unity-mcp/)
 
-#### Proudly sponsored and maintained by [Aura](https://www.tryaura.dev/) — the AI assistant for Unreal & Unity.
+#### Upstream sponsored and maintained by [Aura](https://www.tryaura.dev/) — the AI assistant for Unreal & Unity.
 ##### And don't miss [Godot AI](https://github.com/hi-godot/godot-ai), the new open source project from the makers of MCP for Unity.
 
 </div>
 
 <p align="center"><b>Create your Unity apps with LLMs.</b> MCP for Unity bridges AI assistants — Claude, Codex, VS Code, local LLMs, and more — with your Unity Editor via <a href="https://modelcontextprotocol.io/introduction">Model Context Protocol</a>. Give your LLM the tools to manage assets, control scenes, edit scripts, run tests, and automate your game dev workflows.</p>
+
+**MuiSim fork:** [Repository](https://github.com/MuiSim/unity-mcp.git) ·
+[Version tags](https://github.com/MuiSim/unity-mcp/tags). This fork preserves local
+telemetry creation while disabling remote reporting.
+
+**Stable ancestry:** this release starts from [CoplayDev v10.3.0](https://github.com/CoplayDev/unity-mcp/tree/aa5fc638d623f56178d50329d9ad8c541a57fe66)
+(`aa5fc638d623f56178d50329d9ad8c541a57fe66`, upstream `main` at release time).
+Only the fork's reporting policy, update/source selection, and documentation
+changes are ported. It does not include the fork's beta changes or replace
+the previously published beta-based `v10.3.1`.
 
 <p align="center">
   <img alt="MCP for Unity building a scene" src="docs/images/building_scene.gif">
@@ -26,13 +36,9 @@
 <details>
 <summary><strong>Recent Updates</strong></summary>
 
-* **[v10.0.0](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.0.0)** (2026-06-30)
-* **[v9.7.3](https://github.com/CoplayDev/unity-mcp/releases/tag/v9.7.3)** (2026-06-15)
-* **[v9.7.1](https://github.com/CoplayDev/unity-mcp/releases/tag/v9.7.1)** (2026-05-24)
-* **[v9.7.0](https://github.com/CoplayDev/unity-mcp/releases/tag/v9.7.0)** (2026-05-22)
-* **[v9.6.8](https://github.com/CoplayDev/unity-mcp/releases/tag/v9.6.8)** (2026-04-27)
+* **[v10.3.0](https://github.com/MuiSim/unity-mcp/tree/v10.3.0)** (2026-10-12) — upstream stable 10.3.0 with fork-only telemetry, source, and installation customizations; no beta changes.
 
-Full history: [Release Notes](https://coplaydev.github.io/unity-mcp/releases).
+Fork versions: [Git tags](https://github.com/MuiSim/unity-mcp/tags).
 
 </details>
 <!-- recent-updates:end -->
@@ -43,7 +49,7 @@ Full history: [Release Notes](https://coplaydev.github.io/unity-mcp/releases).
 
 Control the Unity Editor in natural language from any MCP client — create scenes & GameObjects, edit C# scripts, manage assets, run tests, profile, and build. 48 focused MCP tool entrypoints, any client, free & MIT.
 
-**[Browse the full tool catalog →](https://coplaydev.github.io/unity-mcp/reference/tools/)**
+**[Browse the full tool catalog →](https://muisim.github.io/unity-mcp/reference/tools/)**
 
 ---
 
@@ -52,34 +58,69 @@ Control the Unity Editor in natural language from any MCP client — create scen
 **Requirements:** Unity **2021.3 LTS → 6.x** · Python **3.10+** (via [`uv`](https://docs.astral.sh/uv/)). Works with **any MCP client** — Claude Desktop & Code, Cursor, VS Code, Windsurf, Cline, Gemini CLI, and more.
 
 1. **Install** — Unity → Package Manager → Add from git URL:
-   `https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main` &nbsp;_(pin `#v10.0.0` for this release, or `openupm add com.coplaydev.unity-mcp`)_
+   `https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.0` &nbsp;_(pin `#v10.3.0` for this fork release)_
 2. **Configure** — `Window → MCP for Unity → Configure All Detected Clients`.
 3. **Prompt** — *"Create a cube at the origin and add a Rigidbody."* The cube appears in seconds.
+
+### Pinning the install version
+
+`#v10.3.0` selects a fixed release instead of a moving branch. Unity keeps that
+version until you change the Git URL to another release tag. The default Python
+server source uses the same tag automatically:
+`https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server`.
+Leave **Advanced Settings → Server Source Override** empty to use this matching
+version. The source archive avoids Windows Git checkout long-path failures when
+installing the Python server.
+
+For this stable code line, you can track `#muisim-stable-10-3-0-release` instead,
+but that is a moving branch, not a version pin. The matching Python server follows
+the selected ref. `#beta` is a separate, unstable code line; this release does not
+merge into it. The fork has no `main` installation branch.
+
+### After installing
+
+This fork preserves telemetry event creation and local collection, but disables
+remote reporting in the Python server and Unity bridge. Its documentation site
+also disables the analytics beacon. No owner-controlled server or local event-file
+exporter is enabled yet.
+
+Stable package update checks read `MuiSim/unity-mcp`'s published
+`muisim-stable-10-3-0-release` branch; explicitly installed beta packages retain
+their beta channel. Stable update caches are isolated from earlier fork builds.
+Skill sync defaults to the fork's `v10.3.0` tag.
+Update notifications do not change a pinned installation.
+
+If upgrading an existing installation, replace any upstream server-source
+override (clear it to use the matching version), regenerate MCP client
+configurations, and restart the MCP server/client.
+Existing configurations may still launch the upstream PyPI server, which does not
+inherit this fork's reporting policy. Changes installed from this fork apply to
+that build, not to separately installed upstream packages.
 
 ---
 
 ## Community
 
-- [Discord](https://discord.gg/y4p8KfzrN4) — chat with maintainers and other contributors
-- [Issues](https://github.com/CoplayDev/unity-mcp/issues) — bugs and feature requests
-- [Discussions](https://github.com/CoplayDev/unity-mcp/discussions) — design ideas and broader questions
+- [Discord](https://discord.gg/y4p8KfzrN4) — upstream community
+- [Issues](https://github.com/MuiSim/unity-mcp/issues) — fork bugs and feature requests
+- [Repository](https://github.com/MuiSim/unity-mcp.git) — source code and contributions
 - Security: see [SECURITY.md](SECURITY.md) for private reporting
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Branch off `beta`, not `main`. The full dev setup, testing, and release process live in the [Contributing](https://coplaydev.github.io/unity-mcp/contributing/dev-setup) docs.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Branch off `beta`, not `main`. The full dev setup, testing, and release process live in the [Contributing](https://muisim.github.io/unity-mcp/contributing/dev-setup) docs.
 
 ## Advanced
 
-- **Multiple Unity instances** — [Multi-Instance Routing](https://coplaydev.github.io/unity-mcp/guides/multi-instance)
-- **Tool groups (vfx / animation / ui / testing / etc.)** — [Tool Groups](https://coplaydev.github.io/unity-mcp/guides/tool-groups)
-- **v10 asset generation and upgrade notes** — [v10 Migration](https://coplaydev.github.io/unity-mcp/migrations/v10)
-- **Roslyn script validation** — [Roslyn Validation](https://coplaydev.github.io/unity-mcp/guides/roslyn)
-- **Remote-hosted server with auth** — [Remote Server Auth](https://coplaydev.github.io/unity-mcp/guides/remote-server-auth)
+- **Multiple Unity instances** — [Multi-Instance Routing](https://muisim.github.io/unity-mcp/guides/multi-instance)
+- **Tool groups (vfx / animation / ui / testing / etc.)** — [Tool Groups](https://muisim.github.io/unity-mcp/guides/tool-groups)
+- **v10 asset generation and upgrade notes** — [v10 Migration](https://muisim.github.io/unity-mcp/migrations/v10)
+- **Roslyn script validation** — [Roslyn Validation](https://muisim.github.io/unity-mcp/guides/roslyn)
+- **Remote-hosted server with auth** — [Remote Server Auth](https://muisim.github.io/unity-mcp/guides/remote-server-auth)
 
 ## Star History
 
-[![Star History Chart](https://star-history.dera.page/svg?repos=CoplayDev/unity-mcp&type=Date)](https://star-history.dera.page/#CoplayDev/unity-mcp&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=MuiSim/unity-mcp&type=Date)](https://star-history.dera.page/#MuiSim/unity-mcp&Date)
 
 ## Citation
 

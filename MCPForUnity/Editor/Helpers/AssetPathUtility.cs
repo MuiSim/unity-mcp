@@ -205,7 +205,7 @@ namespace MCPForUnity.Editor.Helpers
         /// <summary>
         /// Gets the package source for the MCP server (used with uvx --from).
         /// Checks for EditorPrefs override first (supports git URLs, file:// paths, etc.),
-        /// then falls back to PyPI package reference.
+        /// then uses this fork's source archive at the matching Git ref or version tag.
         /// When the override is a local path, auto-corrects to the "Server" subdirectory
         /// if the path doesn't contain pyproject.toml but Server/pyproject.toml exists.
         /// </summary>
@@ -226,22 +226,23 @@ namespace MCPForUnity.Editor.Helpers
                 return resolved;
             }
 
-            // Default to PyPI package (avoids Windows long path issues with git clone)
-            string version = GetPackageVersion();
-            if (version == "unknown")
+            // Upstream PyPI builds do not contain this fork's reporting policy.
+            var packageInfo = PackageInfo.FindForAssembly(typeof(AssetPathUtility).Assembly);
+            return GetMcpServerPackageSource(packageInfo?.packageId, GetPackageVersion());
+        }
+
+        internal static string GetMcpServerPackageSource(string packageId, string version)
+        {
+            string gitRef = string.IsNullOrWhiteSpace(version) || version == "unknown"
+                ? "muisim-stable-10-3-0-release"
+                : $"v{version}";
+            int fragmentIndex = packageId?.LastIndexOf('#') ?? -1;
+            if (fragmentIndex >= 0 && fragmentIndex < packageId.Length - 1)
             {
-                // Fall back to latest PyPI version so configs remain valid in test scenarios
-                return "mcpforunityserver";
+                gitRef = packageId.Substring(fragmentIndex + 1);
             }
 
-            // Package.json uses semver prerelease tags (e.g., 9.4.5-beta.1) that are not valid
-            // PEP 440 pins for uvx. Use the beta prerelease range instead of a pinned prerelease.
-            if (IsSemVerPreRelease(version))
-            {
-                return "mcpforunityserver>=0.0.0a0";
-            }
-
-            return $"mcpforunityserver=={version}";
+            return $"https://github.com/MuiSim/unity-mcp/archive/{gitRef}.zip#subdirectory=Server";
         }
 
         /// <summary>

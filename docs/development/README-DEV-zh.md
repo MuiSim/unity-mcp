@@ -1,11 +1,29 @@
 # MCP for Unity - 开发者指南
 
-| [English](README-DEV.md) | [简体中文](README-DEV-zh.md) |
+| [English](../../CONTRIBUTING.md) | [简体中文](README-DEV-zh.md) |
 |---------------------------|------------------------------|
+
+本项目仓库：[https://github.com/MuiSim/unity-mcp.git](https://github.com/MuiSim/unity-mcp.git)。
+
+## 安装固定版本 v10.3.0
+
+Unity Package Manager 的 **Add package from git URL** 使用：
+
+```text
+https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.0
+```
+
+将 **Server Source Override** 留空即可使用相同版本的 Python 服务器源码压缩包。
+对应地址：`https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server`。
+此版本基于上游稳定 10.3.0（`aa5fc638d623f56178d50329d9ad8c541a57fe66`），
+仅移植本项目修改，不包含 beta 修改。
+修改代码时可切换到下述本地工作区；不要将上游 PyPI 包或上游分支误认为本项目发布。
+本地遥测事件创建仍可用，但此版本不向远程服务器上报。
 
 ## 贡献代码
 
-**从 `beta` 分支创建 PR**。`main` 分支仅用于稳定版本发布。
+稳定版本修复请从 `muisim-stable-10-3-0-release` 分支创建 PR。
+`beta` 是独立的开发版本线，此 fork 没有 `main` 分支；不要将 beta 合并到此稳定版本。
 
 在提出重大新功能之前，请先联系讨论——可能已有人在开发，或者该功能曾被讨论过。请通过 issue 或 discussion 进行协调。
 
@@ -29,10 +47,14 @@ python mcp_source.py
 ```
 
 选项：
-1. **Upstream main** - 稳定版本 (CoplayDev/unity-mcp)
-2. **Upstream beta** - 开发分支 (CoplayDev/unity-mcp#beta)
+1. **Upstream main** - 上游稳定分支（并非本 fork）
+2. **Upstream beta** - 上游开发分支（并非本 fork）
 3. **Remote branch** - 你的 fork 当前分支
 4. **Local workspace** - 指向本地 MCPForUnity 文件夹的 file: URL
+
+前两项属于上游项目，不包含本项目的远程遥测禁用策略。使用 **Remote branch**
+时确认 `origin` 指向 `https://github.com/MuiSim/unity-mcp.git`，或选择
+**Local workspace** 以验证当前代码。固定发布版本请使用上面的 `#v10.3.0` URL。
 
 切换后，在 Unity 中打开 Package Manager 并 Refresh 以重新解析依赖。
 

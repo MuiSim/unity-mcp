@@ -118,7 +118,7 @@ Do not hand-edit `releases.md` or the `recent-updates` block in `README.md` — 
 
 ## Deploy
 
-The live site at `https://coplaydev.github.io/unity-mcp/` deploys automatically on push to `beta`. No manual step per change.
+The live site at `https://muisim.github.io/unity-mcp/` deploys automatically on push to `beta`. No manual step per change.
 
 ### First-time setup (maintainers only)
 

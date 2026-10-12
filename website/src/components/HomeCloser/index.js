@@ -12,8 +12,8 @@ export default function HomeCloser() {
           <span className={styles.eyebrow}>// READY?</span>
           <h2 className={styles.title}>Get the editor speaking your AI's language.</h2>
           <p className={styles.lede}>
-            Install in under a minute. No account, no telemetry by
-            default, no lock-in. Open source under MIT.
+            Install in under a minute. No account, no remote telemetry reporting,
+            no lock-in. Local event collection respects opt-outs. Open source under MIT.
           </p>
         </div>
 
@@ -26,7 +26,7 @@ export default function HomeCloser() {
           </Link>
           <a
             className={styles.ctaLink}
-            href="https://github.com/CoplayDev/unity-mcp"
+            href="https://github.com/MuiSim/unity-mcp"
             target="_blank"
             rel="noopener noreferrer"
           >

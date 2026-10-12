@@ -10,13 +10,13 @@ namespace MCPForUnity.Editor.Setup
 {
     public class McpForUnitySkillInstaller : EditorWindow
     {
-        private const string RepoUrlKey = "UnityMcpSkillSync.RepoUrl";
-        private const string BranchKey = "UnityMcpSkillSync.Branch";
+        private const string RepoUrlKey = "UnityMcpSkillSync.MuiSim.Stable103.RepoUrl";
+        private const string BranchKey = "UnityMcpSkillSync.MuiSim.Stable103.Branch";
         private const string CliKey = "UnityMcpSkillSync.Cli";
         private const string InstallDirKey = "UnityMcpSkillSync.InstallDir";
         private const string CodexCli = "codex";
         private const string ClaudeCli = "claude";
-        private static readonly string[] BranchOptions = { "beta", "main" };
+        private static readonly string[] BranchOptions = { "v10.3.0", "muisim-stable-10-3-0-release", "beta" };
         private static readonly string[] CliOptions = { CodexCli, ClaudeCli };
 
         private string _repoUrl;
@@ -36,11 +36,11 @@ namespace MCPForUnity.Editor.Setup
         private void OnEnable()
         {
             var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            _repoUrl = EditorPrefs.GetString(RepoUrlKey, "https://github.com/CoplayDev/unity-mcp");
-            _targetBranch = EditorPrefs.GetString(BranchKey, "beta");
+            _repoUrl = EditorPrefs.GetString(RepoUrlKey, SkillSyncService.DefaultRepoUrl);
+            _targetBranch = EditorPrefs.GetString(BranchKey, "v10.3.0");
             if (!BranchOptions.Contains(_targetBranch))
             {
-                _targetBranch = "beta";
+                _targetBranch = "v10.3.0";
             }
             _cliType = EditorPrefs.GetString(CliKey, CodexCli);
             if (!CliOptions.Contains(_cliType))

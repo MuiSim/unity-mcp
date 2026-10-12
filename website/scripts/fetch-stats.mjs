@@ -41,7 +41,7 @@ export function renderSummary(stats) {
     '### Real-user signals (the honest ones)',
     '| Signal | Value | Reads as |',
     '| --- | ---: | --- |',
-    `| In-product DAU / WAU | _pending_ | **true active users** — already collected by the in-product telemetry; needs a Coplay read API |`,
+    `| In-product DAU / WAU | _disabled_ | **true active users** — remote telemetry reporting is disabled in this fork |`,
     `| Unique repo cloners (14d) | ${n(g.uniqueCloners14d)} | developers actually pulling the code |`,
     `| Unique repo viewers (14d) | ${n(g.uniqueViewers14d)} | distinct repo visitors |`,
     `| GitHub stars | ${n(g.stars)} | real accounts interested |`,

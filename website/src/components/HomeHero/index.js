@@ -4,12 +4,11 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import CopyButton from '@site/src/components/CopyButton';
 import styles from './styles.module.css';
 
-const UPM_MAIN = 'https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main';
-const UPM_BETA = 'https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#beta';
+const UPM_STABLE = 'https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.0';
 
 export default function HomeHero() {
   const { siteConfig } = useDocusaurusContext();
-  const version = siteConfig.customFields?.latestVersion ?? 'v10.0.0';
+  const version = siteConfig.customFields?.latestVersion ?? 'v10.3.0';
 
   return (
     <header className={styles.hero}>
@@ -55,14 +54,8 @@ export default function HomeHero() {
 
           <div className={styles.installLine}>
             <span className={styles.installChannel}>STABLE</span>
-            <code className={styles.installUrl}>{UPM_MAIN}</code>
-            <CopyButton text={UPM_MAIN} label="stable URL" className={styles.installCopy} />
-          </div>
-
-          <div className={styles.installLine}>
-            <span className={`${styles.installChannel} ${styles.installChannelBeta}`}>BETA</span>
-            <code className={styles.installUrl}>{UPM_BETA}</code>
-            <CopyButton text={UPM_BETA} label="beta URL" className={styles.installCopy} />
+            <code className={styles.installUrl}>{UPM_STABLE}</code>
+            <CopyButton text={UPM_STABLE} label="stable URL" className={styles.installCopy} />
           </div>
         </div>
 

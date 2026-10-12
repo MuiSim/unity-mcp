@@ -49,7 +49,7 @@ function countReferenceResources() {
   return (readFileSync(path, 'utf8').match(/\n## `/g) ?? []).length;
 }
 
-const latestVersion = 'v10.0.0';
+const latestVersion = 'v10.3.0';
 const toolCount = countReferenceTools();
 const toolGroupCount = countToolGroups();
 const resourceCount = countReferenceResources();
@@ -62,12 +62,12 @@ const config = {
   tagline: 'AI-driven game development for the Unity Editor',
   favicon: 'img/favicon.png',
 
-  // Hosted on GitHub Pages under the CoplayDev org.
+  // Hosted on GitHub Pages for the MuiSim fork.
   // Custom domain (CNAME) deferred — see plan Phase 2.
-  url: 'https://coplaydev.github.io',
+  url: 'https://muisim.github.io',
   baseUrl,
 
-  organizationName: 'CoplayDev',
+  organizationName: 'MuiSim',
   projectName: 'unity-mcp',
   deploymentBranch: 'gh-pages',
   trailingSlash: false,
@@ -147,7 +147,7 @@ const config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/CoplayDev/unity-mcp/edit/beta/website/',
+          editUrl: 'https://github.com/MuiSim/unity-mcp/edit/muisim-stable-10-3-0-release/website/',
           showLastUpdateTime: true,
           showLastUpdateAuthor: true,
         },
@@ -180,7 +180,6 @@ const config = {
         ],
       },
     ],
-    ...(process.env.GOATCOUNTER_CODE ? ['docusaurus-plugin-goatcounter'] : []),
   ],
 
   themeConfig:
@@ -213,7 +212,7 @@ const config = {
             position: 'left',
           },
           {
-            href: 'https://github.com/CoplayDev/unity-mcp',
+            href: 'https://github.com/MuiSim/unity-mcp',
             position: 'right',
             className: 'header-icon-link header-github-link',
             'aria-label': 'GitHub repository',
@@ -241,14 +240,14 @@ const config = {
             title: 'Community',
             items: [
               { label: 'Discord', href: 'https://discord.gg/y4p8KfzrN4' },
-              { label: 'GitHub Issues', href: 'https://github.com/CoplayDev/unity-mcp/issues' },
+              { label: 'GitHub Issues', href: 'https://github.com/MuiSim/unity-mcp/issues' },
             ],
           },
           {
             title: 'More',
             items: [
-              { label: 'GitHub', href: 'https://github.com/CoplayDev/unity-mcp' },
-              { label: 'PyPI', href: 'https://pypi.org/p/mcpforunityserver' },
+              { label: 'GitHub', href: 'https://github.com/MuiSim/unity-mcp' },
+              { label: 'Fork versions', href: 'https://github.com/MuiSim/unity-mcp/tags' },
             ],
           },
         ],
@@ -263,7 +262,6 @@ const config = {
         defaultMode: 'light',
         respectPrefersColorScheme: true,
       },
-      ...(process.env.GOATCOUNTER_CODE ? { goatcounter: { code: process.env.GOATCOUNTER_CODE } } : {}),
     }),
 };
 

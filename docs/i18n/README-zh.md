@@ -7,14 +7,17 @@
 
 <div align="center">
 
-[English](../../README.md) <img src="../images/connector.svg" alt="↔" height="14"> [简体中文](README-zh.md) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; [Discord](https://discord.gg/y4p8KfzrN4) <img src="../images/connector.svg" alt="↔" height="14"> [Wiki](https://coplaydev.github.io/unity-mcp/)
+[English](../../README.md) <img src="../images/connector.svg" alt="↔" height="14"> [简体中文](README-zh.md) &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; [Discord](https://discord.gg/y4p8KfzrN4) <img src="../images/connector.svg" alt="↔" height="14"> [Wiki](https://muisim.github.io/unity-mcp/)
 
-#### 由 [Aura](https://www.tryaura.dev/) 荣誉赞助并维护 —— 面向 Unreal 与 Unity 的 AI 助手。
+#### 上游项目由 [Aura](https://www.tryaura.dev/) 荣誉赞助并维护 —— 面向 Unreal 与 Unity 的 AI 助手。
 ##### 别错过 [Godot AI](https://github.com/hi-godot/godot-ai) 🤖，MCP for Unity 团队推出的全新开源项目！
 
 </div>
 
 <p align="center">MCP for Unity 通过 <a href="https://modelcontextprotocol.io/introduction">Model Context Protocol</a> 把 Claude、Cursor、VS Code、本地大模型等 AI 助手接入 Unity 编辑器，让它们直接帮你管理资源、搭场景、写脚本、跑测试，把开发流程里的重复活儿都包了。</p>
+
+**MuiSim 分支项目：** [代码仓库](https://github.com/MuiSim/unity-mcp.git)。
+保留本地遥测事件创建，但禁用向远程服务器上报。
 
 <p align="center">
   <img alt="MCP for Unity building a scene" src="../images/building_scene.gif">
@@ -25,13 +28,9 @@
 <details>
 <summary><strong>最近更新</strong></summary>
 
-* **[v10.0.0](https://github.com/CoplayDev/unity-mcp/releases/tag/v10.0.0)**（2026-06-30）
-* **[v9.7.3](https://github.com/CoplayDev/unity-mcp/releases/tag/v9.7.3)**（2026-06-15）
-* **[v9.7.1](https://github.com/CoplayDev/unity-mcp/releases/tag/v9.7.1)**（2026-05-24）
-* **[v9.7.0](https://github.com/CoplayDev/unity-mcp/releases/tag/v9.7.0)**（2026-05-22）
-* **[v9.6.8](https://github.com/CoplayDev/unity-mcp/releases/tag/v9.6.8)**（2026-04-27）
+* **[v10.3.0](https://github.com/MuiSim/unity-mcp/tree/v10.3.0)**（2026-10-12）——基于上游稳定版本 10.3.0，仅移植本项目的遥测、来源与安装修改，不包含 beta 修改。
 
-完整更新历史见 [发布说明](https://coplaydev.github.io/unity-mcp/releases)。
+本项目的版本见 [Git 标签](https://github.com/MuiSim/unity-mcp/tags)。
 
 </details>
 
@@ -41,7 +40,7 @@
 
 用自然语言从任意 MCP 客户端操作 Unity 编辑器：搭场景、建 GameObject、写改 C# 脚本、调材质和着色器、跑测试、看性能、出包。47 个 MCP 工具入口，任意客户端可用，免费、MIT 开源。
 
-**[查看完整工具目录 →](https://coplaydev.github.io/unity-mcp/reference/tools/)**
+**[查看完整工具目录 →](https://muisim.github.io/unity-mcp/reference/tools/)**
 
 ---
 
@@ -50,9 +49,17 @@
 **环境要求：** Unity **2021.3 LTS → 6.x** · Python **3.10+**（用 [`uv`](https://docs.astral.sh/uv/) 管理）。兼容**任意 MCP 客户端**——Claude Desktop 与 Claude Code、Cursor、VS Code、Windsurf、Cline、Gemini CLI 等等。
 
 1. **安装** —— 在 Unity 里打开 Package Manager，从 git URL 添加：
-   `https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main` &nbsp;_（如需固定本次发布，可用 `#v10.0.0`；也可以用 `openupm add com.coplaydev.unity-mcp`）_
+   `https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.0` &nbsp;_（使用 `#v10.3.0` 固定此分支项目的发布版本）_
 2. **配置客户端** —— `Window → MCP for Unity → Configure All Detected Clients`，一键搞定所有检测到的客户端。
 3. **发个提示试试** —— *"在原点放一个立方体，加个 Rigidbody。"* 立方体几秒就出现在场景里了。
+
+版本标签会固定 Unity 包和默认 Python 服务器的版本。将 **Advanced Settings → Server Source Override**
+留空即可自动使用对应标签；升级时请修改安装 URL 中的版本标签并重新生成客户端配置。
+`#muisim-stable-10-3-0-release` 跟随此稳定分支更新，不会固定版本。
+`#beta` 是独立的不稳定版本线，此项目没有 `main` 分支。
+默认服务器来源是
+`https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server`，
+使用源码压缩包可避免 Python 服务器安装时的 Windows Git 长路径问题。
 
 <details>
 <summary><strong>手动配置</strong></summary>
@@ -91,7 +98,7 @@
   "mcpServers": {
     "unityMCP": {
       "command": "uvx",
-      "args": ["--from", "mcpforunityserver", "mcp-for-unity", "--transport", "stdio"]
+      "args": ["--from", "https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
     }
   }
 }
@@ -103,7 +110,7 @@
   "mcpServers": {
     "unityMCP": {
       "command": "C:/Users/YOUR_USERNAME/AppData/Local/Microsoft/WinGet/Links/uvx.exe",
-      "args": ["--from", "mcpforunityserver", "mcp-for-unity", "--transport", "stdio"]
+      "args": ["--from", "https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
     }
   }
 }
@@ -153,17 +160,16 @@ MCP for Unity 支持同时开多个 Unity 编辑器实例。想把操作定向�
 * **客户端连不上：** 确认 HTTP 服务在运行，且 URL 和你的配置一致
 
 **详细配置指南：**
-* [Fix Unity MCP and Cursor, VSCode & Windsurf](https://github.com/CoplayDev/unity-mcp/wiki/1.-Fix-Unity-MCP-and-Cursor,-VSCode-&-Windsurf) —— uv/Python 安装、PATH 问题
-* [Fix Unity MCP and Claude Code](https://github.com/CoplayDev/unity-mcp/wiki/2.-Fix-Unity-MCP-and-Claude-Code) —— Claude CLI 安装
-* [Common Setup Problems](https://github.com/CoplayDev/unity-mcp/wiki/3.-Common-Setup-Problems) —— macOS dyld 错误、常见问题
+* [故障排除](https://muisim.github.io/unity-mcp/guides/troubleshooting) —— uv/Python 安装、PATH 和常见问题
+* [客户端配置指南](https://muisim.github.io/unity-mcp/guides/client-configurators) —— 各客户端配置说明
 
-还是搞不定？[提个 Issue](https://github.com/CoplayDev/unity-mcp/issues) 或者 [来 Discord 问](https://discord.gg/y4p8KfzrN4)
+还是搞不定？[提个 Issue](https://github.com/MuiSim/unity-mcp/issues) 或者 [来上游 Discord 问](https://discord.gg/y4p8KfzrN4)
 </details>
 
 <details>
 <summary><strong>参与贡献</strong></summary>
 
-开发环境配置见 [README-DEV.md](../development/README-DEV.md)，自定义工具见 [CUSTOM_TOOLS.md](../reference/CUSTOM_TOOLS.md)。
+开发环境配置见 [README-DEV-zh.md](../development/README-DEV-zh.md)，自定义工具见 [CUSTOM_TOOLS.md](../reference/CUSTOM_TOOLS.md)。
 
 1. Fork → 开 issue → 建分支（`feature/your-idea`）→ 改 → 提 PR
 </details>
@@ -171,18 +177,20 @@ MCP for Unity 支持同时开多个 Unity 编辑器实例。想把操作定向�
 <details>
 <summary><strong>遥测与隐私</strong></summary>
 
-匿名、注重隐私的遥测（不收集代码、项目名或任何个人数据），用 `DISABLE_TELEMETRY=true` 就能关掉。详见 [TELEMETRY.md](../reference/TELEMETRY.md)。
+此分支项目允许创建本地遥测事件，但禁用所有远程遥测上报。`DISABLE_TELEMETRY=true`
+仍可关闭本地事件收集。未来可以另行实现自有服务器或本地文件审查；当前均未启用。
+详见 [遥测说明](https://muisim.github.io/unity-mcp/architecture/telemetry)。
 </details>
 
 ---
 
-**许可证：** MIT —— 见 [LICENSE](../../LICENSE) | **需要帮助？** [Discord](https://discord.gg/y4p8KfzrN4) | [Issues](https://github.com/CoplayDev/unity-mcp/issues)
+**许可证：** MIT —— 见 [LICENSE](../../LICENSE) | **需要帮助？** [上游 Discord](https://discord.gg/y4p8KfzrN4) | [Issues](https://github.com/MuiSim/unity-mcp/issues)
 
 ---
 
 ## Star 历史
 
-[![Star History Chart](https://star-history.dera.page/svg?repos=CoplayDev/unity-mcp&type=Date)](https://star-history.dera.page/#CoplayDev/unity-mcp&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=MuiSim/unity-mcp&type=Date)](https://star-history.dera.page/#MuiSim/unity-mcp&Date)
 
 <details>
 <summary><strong>论文引用</strong></summary>

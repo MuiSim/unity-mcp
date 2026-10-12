@@ -55,10 +55,10 @@ namespace MCPForUnity.Editor.Constants
 
         internal const string CustomToolRegistrationEnabled = "MCPForUnity.CustomToolRegistrationEnabled";
 
-        internal const string LastUpdateCheck = "MCPForUnity.LastUpdateCheck";
-        internal const string LatestKnownVersion = "MCPForUnity.LatestKnownVersion";
-        internal const string LastAssetStoreUpdateCheck = "MCPForUnity.LastAssetStoreUpdateCheck";
-        internal const string LatestKnownAssetStoreVersion = "MCPForUnity.LatestKnownAssetStoreVersion";
+        internal const string LastUpdateCheck = "MCPForUnity.MuiSim.Stable103.LastUpdateCheck";
+        internal const string LatestKnownVersion = "MCPForUnity.MuiSim.Stable103.LatestKnownVersion";
+        internal const string LastAssetStoreUpdateCheck = "MCPForUnity.MuiSim.Stable103.LastAssetStoreUpdateCheck";
+        internal const string LatestKnownAssetStoreVersion = "MCPForUnity.MuiSim.Stable103.LatestKnownAssetStoreVersion";
         internal const string LastStdIoUpgradeVersion = "MCPForUnity.LastStdIoUpgradeVersion";
 
         internal const string TelemetryDisabled = "MCPForUnity.TelemetryDisabled";

@@ -8,8 +8,7 @@ using UnityEngine;
 namespace MCPForUnity.Editor.Helpers
 {
     /// <summary>
-    /// Unity Bridge telemetry helper for collecting usage analytics
-    /// Following privacy-first approach with easy opt-out mechanisms
+    /// Telemetry reporting is disabled in this fork.
     /// </summary>
     public static class TelemetryHelper
     {
@@ -18,39 +17,23 @@ namespace MCPForUnity.Editor.Helpers
         private static Action<Dictionary<string, object>> s_sender;
 
         /// <summary>
-        /// Check if telemetry is enabled (can be disabled via Environment Variable or EditorPrefs)
+        /// Check whether local telemetry collection is enabled.
         /// </summary>
         public static bool IsEnabled
         {
             get
             {
-                // Check environment variables first
-                var envDisable = Environment.GetEnvironmentVariable("DISABLE_TELEMETRY");
-                if (!string.IsNullOrEmpty(envDisable) &&
-                    (envDisable.ToLower() == "true" || envDisable == "1"))
+                foreach (string name in new[] { "DISABLE_TELEMETRY", "UNITY_MCP_DISABLE_TELEMETRY", "MCP_DISABLE_TELEMETRY" })
                 {
-                    return false;
+                    string value = Environment.GetEnvironmentVariable(name);
+                    if (value == "1" || string.Equals(value, "true", StringComparison.OrdinalIgnoreCase))
+                        return false;
                 }
-
-                var unityMcpDisable = Environment.GetEnvironmentVariable("UNITY_MCP_DISABLE_TELEMETRY");
-                if (!string.IsNullOrEmpty(unityMcpDisable) &&
-                    (unityMcpDisable.ToLower() == "true" || unityMcpDisable == "1"))
-                {
-                    return false;
-                }
-
-                // Honor protocol-wide opt-out as well
-                var mcpDisable = Environment.GetEnvironmentVariable("MCP_DISABLE_TELEMETRY");
-                if (!string.IsNullOrEmpty(mcpDisable) &&
-                    (mcpDisable.Equals("true", StringComparison.OrdinalIgnoreCase) || mcpDisable == "1"))
-                {
-                    return false;
-                }
-
-                // Check EditorPrefs
                 return !UnityEditor.EditorPrefs.GetBool(TELEMETRY_DISABLED_KEY, false);
             }
         }
+
+        public static bool IsReportingEnabled => false;
 
         /// <summary>
         /// Get or generate customer UUID for anonymous tracking
@@ -75,7 +58,7 @@ namespace MCPForUnity.Editor.Helpers
         }
 
         /// <summary>
-        /// Enable telemetry (stored in EditorPrefs)
+        /// Enable local telemetry collection (stored in EditorPrefs).
         /// </summary>
         public static void EnableTelemetry()
         {
@@ -83,8 +66,7 @@ namespace MCPForUnity.Editor.Helpers
         }
 
         /// <summary>
-        /// Send telemetry data to MCP server for processing
-        /// This is a lightweight bridge - the actual telemetry logic is in the MCP server
+        /// Create a telemetry event without remote reporting.
         /// </summary>
         public static void RecordEvent(string eventType, Dictionary<string, object> data = null)
         {
@@ -108,8 +90,6 @@ namespace MCPForUnity.Editor.Helpers
                     telemetryData["data"] = data;
                 }
 
-                // Send to MCP server via existing bridge communication
-                // The MCP server will handle actual telemetry transmission
                 SendTelemetryToMcpServer(telemetryData);
             }
             catch (Exception e)
@@ -188,7 +168,7 @@ namespace MCPForUnity.Editor.Helpers
         private static void SendTelemetryToMcpServer(Dictionary<string, object> telemetryData)
         {
             var sender = Volatile.Read(ref s_sender);
-            if (sender != null)
+            if (IsReportingEnabled && sender != null)
             {
                 try
                 {

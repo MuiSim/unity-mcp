@@ -4,29 +4,39 @@
 [![python](https://img.shields.io/badge/Python-3.10+-3776AB.svg?style=flat&logo=python&logoColor=white)](https://www.python.org)
 [![License](https://img.shields.io/badge/License-MIT-red.svg 'MIT License')](https://opensource.org/licenses/MIT)
 [![Discord](https://img.shields.io/badge/discord-join-red.svg?logo=discord&logoColor=white)](https://discord.gg/y4p8KfzrN4)
-[![PyPI version](https://img.shields.io/pypi/v/mcpforunityserver?label=PyPI)](https://pypi.org/project/mcpforunityserver/)
-[![Downloads](https://static.pepy.tech/badge/mcpforunityserver)](https://pepy.tech/project/mcpforunityserver)
+[![Fork version](https://img.shields.io/badge/MuiSim-v10.3.0-blue)](https://github.com/MuiSim/unity-mcp/tree/v10.3.0)
 
 Model Context Protocol server for Unity Editor integration. Control Unity through natural language using AI assistants like Claude, Cursor, and more.
 
-**Maintained by [Coplay](https://www.coplay.dev/?ref=unity-mcp)** - This project is not affiliated with Unity Technologies.
+**MuiSim fork:** [Repository](https://github.com/MuiSim/unity-mcp.git). The upstream
+project was developed by Coplay and its contributors. This project is not
+affiliated with Unity Technologies.
 
 💬 **Join our community:** [Discord Server](https://discord.gg/y4p8KfzrN4)
 
-**Required:** Install the [Unity MCP Plugin](https://github.com/CoplayDev/unity-mcp?tab=readme-ov-file#-step-1-install-the-unity-package) to connect Unity Editor with this MCP server. You also need `uvx` (requires [uv](https://docs.astral.sh/uv/)) to run the server.
+**Required:** Install the [Unity MCP Plugin](https://github.com/MuiSim/unity-mcp#quickstart) to connect Unity Editor with this MCP server. You also need `uvx` (requires [uv](https://docs.astral.sh/uv/)) to run the server.
 
 ---
 
 ## Installation
 
-### Option 1: PyPI
+For the reporting-disabled **MuiSim v10.3.0** release, use the pinned GitHub source
+below. Unity installations pinned to `#v10.3.0` select that server tag
+automatically unless you set an explicit server-source override.
 
-Install and run directly from PyPI using `uvx`.
+Install the matching Unity package from
+`https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.0`.
+This is upstream stable 10.3.0 (`aa5fc638d623f56178d50329d9ad8c541a57fe66`)
+with fork-only customizations, not the beta-based 10.3.1 build.
+
+### Option 1: Pinned GitHub Source (Recommended)
+
+Run this fork directly using `uvx` and the fixed release archive.
 
 **Run Server (HTTP):**
 
 ```bash
-uvx --from mcpforunityserver mcp-for-unity --transport http --http-url http://localhost:8080
+uvx --from "https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server" mcp-for-unity --transport http --http-url http://localhost:8080
 ```
 
 **MCP Client Configuration (HTTP):**
@@ -50,7 +60,7 @@ uvx --from mcpforunityserver mcp-for-unity --transport http --http-url http://lo
       "command": "uvx",
       "args": [
         "--from",
-        "mcpforunityserver",
+        "https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server",
         "mcp-for-unity",
         "--transport",
         "stdio"
@@ -60,56 +70,45 @@ uvx --from mcpforunityserver mcp-for-unity --transport http --http-url http://lo
 }
 ```
 
-### Option 2: From GitHub Source
+The versioned source archive pins the server without cloning the full repository,
+avoiding Windows Git long-path errors. Explicit `git+https://` server-source
+overrides remain supported. Change the version tag in the archive URL to upgrade.
+Using `muisim-stable-10-3-0-release.zip` follows the moving stable branch instead
+of pinning a release. `beta.zip` is a separate unstable code line; the fork has
+no `main` branch.
 
-Use this to run the latest released version from the repository. Change the version to `main` to run the latest unreleased changes from the repository.
+### Option 2: Docker (Build This Fork Locally)
 
-```json
-{
-  "mcpServers": {
-    "UnityMCP": {
-      "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/CoplayDev/unity-mcp@v10.3.0#subdirectory=Server",
-        "mcp-for-unity",
-        "--transport",
-        "stdio"
-      ]
-    }
-  }
-}
-```
-
-### Option 3: Docker
-
-**Use Pre-built Image:**
+No fork-specific prebuilt Docker image is published with this version tag.
+Build from the tagged checkout:
 
 ```bash
-docker run -p 8080:8080 msanatan/mcp-for-unity-server:latest --transport http --http-url http://0.0.0.0:8080
-```
-
-**Build Locally:**
-
-```bash
+git clone --branch v10.3.0 --depth 1 https://github.com/MuiSim/unity-mcp.git
+cd unity-mcp/Server
 docker build -t unity-mcp-server .
 docker run -p 8080:8080 unity-mcp-server --transport http --http-url http://0.0.0.0:8080
 ```
 
 Configure your MCP client with `"url": "http://localhost:8080/mcp"`.
 
-### Option 4: Local Development
+### Option 3: Local Development
 
 For contributing or modifying the server code:
 
 ```bash
 # Clone the repository
-git clone https://github.com/CoplayDev/unity-mcp.git
+git clone --branch v10.3.0 --depth 1 https://github.com/MuiSim/unity-mcp.git
 cd unity-mcp/Server
+
+# Create a branch before editing the pinned release
+git switch -c my-fork-change
 
 # Run with uv
 uv run src/main.py --transport stdio
 ```
+
+Upstream PyPI packages and upstream prebuilt Docker images are separate builds;
+they do not inherit this fork's remote-reporting policy.
 
 ---
 
@@ -159,32 +158,30 @@ API key authentication (remote-hosted mode):
 - `UNITY_MCP_API_KEY_SERVICE_TOKEN_HEADER` - Header name for server-to-auth-service authentication
 - `UNITY_MCP_API_KEY_SERVICE_TOKEN` - Token value sent to the auth service for server authentication
 
-Telemetry:
-
-- `DISABLE_TELEMETRY=1` - Disable anonymous telemetry (opt-out)
-- `UNITY_MCP_DISABLE_TELEMETRY=1` - Same as `DISABLE_TELEMETRY`
-- `MCP_DISABLE_TELEMETRY=1` - Same as `DISABLE_TELEMETRY`
-- `UNITY_MCP_TELEMETRY_ENDPOINT` - Override telemetry endpoint URL
-- `UNITY_MCP_TELEMETRY_TIMEOUT` - Override telemetry request timeout (seconds)
+Remote telemetry reporting is disabled in this fork. Telemetry events can still
+be created, and local UUID and milestone storage remains available. The existing
+`DISABLE_TELEMETRY`, `UNITY_MCP_DISABLE_TELEMETRY`, and `MCP_DISABLE_TELEMETRY`
+environment variables disable collection. Endpoint overrides do not enable
+remote reporting.
 
 ### Examples
 
 **Stdio (default):**
 
 ```bash
-uvx --from mcpforunityserver mcp-for-unity --transport stdio
+uvx --from "https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server" mcp-for-unity --transport stdio
 ```
 
 **HTTP (local):**
 
 ```bash
-uvx --from mcpforunityserver mcp-for-unity --transport http --http-host 127.0.0.1 --http-port 8080
+uvx --from "https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server" mcp-for-unity --transport http --http-host 127.0.0.1 --http-port 8080
 ```
 
 **HTTP (remote-hosted with API key auth):**
 
 ```bash
-uvx --from mcpforunityserver mcp-for-unity \
+uvx --from "https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server" mcp-for-unity \
   --transport http \
   --http-host 0.0.0.0 \
   --http-port 8080 \
@@ -193,11 +190,8 @@ uvx --from mcpforunityserver mcp-for-unity \
   --api-key-login-url https://app.example.com/api-keys
 ```
 
-**Disable telemetry:**
-
-```bash
-DISABLE_TELEMETRY=1 uvx --from mcpforunityserver mcp-for-unity --transport stdio
-```
+The server in this checkout does not report telemetry. Upstream PyPI packages
+are separate builds and do not inherit this fork's telemetry policy.
 
 ---
 
@@ -233,7 +227,7 @@ When deploying the server as a shared remote service (e.g. for a team or Asset S
 }
 ```
 
-For full details, see [Remote Server Auth Guide](../docs/guides/REMOTE_SERVER_AUTH.md) and [Architecture Reference](../docs/reference/REMOTE_SERVER_AUTH_ARCHITECTURE.md).
+For full details, see the [Remote Server Auth Guide](https://muisim.github.io/unity-mcp/guides/remote-server-auth).
 
 ---
 
@@ -273,7 +267,7 @@ Once connected, try these commands in your AI assistant:
 
 For complete documentation, troubleshooting, and advanced usage:
 
-📖 **[Full Documentation](https://coplaydev.github.io/unity-mcp/)**
+📖 **[Full Documentation](https://muisim.github.io/unity-mcp/)**
 
 ---
 
@@ -287,4 +281,4 @@ For complete documentation, troubleshooting, and advanced usage:
 
 ## License
 
-MIT License - See [LICENSE](https://github.com/CoplayDev/unity-mcp/blob/main/LICENSE)
+MIT License - See [LICENSE](https://github.com/MuiSim/unity-mcp/blob/v10.3.0/LICENSE)

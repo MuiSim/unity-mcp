@@ -60,7 +60,7 @@ If you're running Claude Code from WSL2 and Unity on Windows, the MCP server run
 In Unity Package Manager, add by git URL:
 
 ```text
-https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main
+https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.0
 ```
 
 In the MCP for Unity settings, change the port to **8090** (or any free port — the default 8080 can conflict with other services like Tailscale).

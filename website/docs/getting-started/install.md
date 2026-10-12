@@ -8,7 +8,12 @@ description: Add MCP for Unity to your Unity project and connect an MCP client.
 
 # Install
 
-Three install paths are supported. Pick one. **Git URL** is the fastest if you just want to try it.
+Use the pinned **Git URL** below to install the reporting-disabled MuiSim fork.
+The Asset Store and OpenUPM alternatives install upstream builds.
+
+This release is based on upstream stable `v10.3.0` at
+`aa5fc638d623f56178d50329d9ad8c541a57fe66`, with only the fork's reporting,
+source-selection, and documentation changes. It does not include beta changes.
 
 ## Prerequisites
 
@@ -23,13 +28,19 @@ This path needs `git` on your PATH (the Package Manager runs it). If it reports 
 In Unity, open **Window → Package Manager**, click the **`+`** button, choose **Add package from git URL...**, and paste:
 
 ```text
-https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main
+https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#v10.3.0
 ```
 
-For the latest beta features, use the `beta` branch:
+`#v10.3.0` pins this release. Change the tag to upgrade to a different version.
+The default Python server uses the same tag; leave **Advanced Settings → Server
+Source Override** empty. Regenerate existing client configurations after changing
+the installed version.
+
+To follow this stable code line without a version pin, use the published stable
+branch below. The fork has no `main` branch; `beta` is a separate unstable line:
 
 ```text
-https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#beta
+https://github.com/MuiSim/unity-mcp.git?path=/MCPForUnity#muisim-stable-10-3-0-release
 ```
 
 ## Option 2 — Unity Asset Store
@@ -111,7 +122,7 @@ If auto-configuration doesn't work for your client, add this to your client's MC
   "mcpServers": {
     "unityMCP": {
       "command": "uvx",
-      "args": ["--from", "mcpforunityserver", "mcp-for-unity", "--transport", "stdio"]
+      "args": ["--from", "https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
     }
   }
 }
@@ -124,7 +135,7 @@ If auto-configuration doesn't work for your client, add this to your client's MC
   "mcpServers": {
     "unityMCP": {
       "command": "C:/Users/YOUR_USERNAME/AppData/Local/Microsoft/WinGet/Links/uvx.exe",
-      "args": ["--from", "mcpforunityserver", "mcp-for-unity", "--transport", "stdio"]
+      "args": ["--from", "https://github.com/MuiSim/unity-mcp/archive/v10.3.0.zip#subdirectory=Server", "mcp-for-unity", "--transport", "stdio"]
     }
   }
 }
